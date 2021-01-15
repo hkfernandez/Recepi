@@ -8,6 +8,7 @@ console.log('is working');
 
 
 
+// START EDAMAM CALL--------------------------------------------------------
 //variable that will hold user input from search textbox
 // const userInputSpanish = '';
 // const url = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/search?q=${userInputSpanish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
@@ -25,6 +26,9 @@ console.log('is working');
 
 // });
 
+
+//variable that will hold user input from search textbox
+// const url = `https://api.edamam.com/search?q=${userInputEnglish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
 //Maria's app ID, & app key for english endpoint
 const APP_ID = "bb9ad742";
 
@@ -54,6 +58,28 @@ $.ajax({
 
 
 });
+// END EDAMAM CALL ----------------------------------------------------
+
+// START SPOONACULAR CALL ---------------------------------------------
+// hector's api for spooacular 
+const keySpoonHector = "40e409872bc049d28deda10508960781";
+const ingredientName="flour";
+const sourceAmount="2";
+const sourceUnit="cups";
+const targetUnit="grams";
+const spoonCallURL = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredientName}&sourceAmount=${sourceAmount}&sourceUnit=${sourceUnit}&targetUnit=${targetUnit}&apiKey=${keySpoonHector}`
+
+//AJAX call to unit conversion path
+// $.ajax({
+//     url: spoonCallURL,
+//     method: "GET"
+// }).then(function (response) {
+//     console.log(response);
+
+
+// });
+
+// END SPOONACULAR CALL ---------------------------------------------
 
 // ..... REFERENCE...............
 // <!-- const API_ID = "bb9ad742"
