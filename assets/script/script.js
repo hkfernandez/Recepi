@@ -115,28 +115,30 @@ const APP_ID = "bb9ad742";
 
 //  Omar APP ID "bb9ad742";
 // Maria APP ID "588c938a";
+// Dory APP ID "d646e635"
 
 const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd"
 
 // Omar App KEY "f1f0e0febcb485de149281ede51c6ffd"
 //  Maria APP Key "52561e55f1ad9a36b20b7445df72154b";
-
+// Dory APP KEY "549406eaebcc7c23fdc7927fa1ea196c"
 
 
 //variable that will hold user input from search textbox
 const userInputEnglish = 'chicken';
-const url = `https://api.edamam.com/search?q=${userInputEnglish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+
+const urlEnglish = `https://api.edamam.com/search?q=${userInputEnglish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+
+$.ajax({
+    url: urlEnglish,
+    method: "GET"
+}).then(function (response) {
+    console.log(response);
+
+
+});
 
 //need verification to ensure user input something and in the correct language - is searching spanish keysearch words much be in spanish
-
-
-//AJAX call to spanish beta path for recipe search through Edamam
-// $.ajax({
-//     url: url,
-//     method: "GET"
-// }).then(function (response) {
-//     console.log(response);
-
 
 // });
 // END EDAMAM CALL ----------------------------------------------------
