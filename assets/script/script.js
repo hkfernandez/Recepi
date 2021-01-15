@@ -27,6 +27,56 @@ Button to remove saved recipe from local storageSave found recipes
 What happens when you click on save?error check to prevent duplicatessaved to local storageupdate recentsAdd notes by user?
 */
 
+// START WIREFRAME HECTOR----------------------------------------------------
+// second container 
+$("#mainContainer").append($("<section>")
+    .attr("id", "secondContainer")
+ )
+// displayPane
+$("#mainContainer").append($("<section>")
+    .attr("id", "displayPane")
+    .text ("displayPane")
+)
+// searchPane
+$("#secondContainer").append($("<nav>")
+    .attr("id", "searchPane")
+    .text ("searchPane")
+    )
+// recentsPane
+$("#secondContainer").append($("<nav>")
+    .attr("id", "recentsPane")
+    .text ("recentsPane")
+    )
+// search bar
+$("#searchPane").append($("<form>")
+    .attr("class", "uk-search uk-search-default")
+    .append ($("<input>")
+        .attr("id", "searchBar")
+        .attr("class", "uk-search-input")
+        .attr("type", "search")
+        .attr("placeholder", "Search...")
+    )
+)
+// search button
+    $("#searchPane").append($("<button>")
+        .attr("id", "searchBtn")
+        .attr("class", "uk-button uk-button-default")
+        .text("Search")  
+)
+// recentsPane header
+$("#recentsPane").append($("<H3>")
+.text("My Recipes")    
+)
+// recents list
+$("#recentsPane").append($("<nav>")
+    .attr("id", "recentsList")
+    .text("Recents List")    
+)
+
+
+
+// END WIREFRAME-------------------------------------------------------- 
+
 
 
 //check to see js connected
@@ -81,14 +131,14 @@ const url = `https://api.edamam.com/search?q=${userInputEnglish}&amp;app_id=${AP
 
 
 //AJAX call to spanish beta path for recipe search through Edamam
-$.ajax({
-    url: url,
-    method: "GET"
-}).then(function (response) {
-    console.log(response);
+// $.ajax({
+//     url: url,
+//     method: "GET"
+// }).then(function (response) {
+//     console.log(response);
 
 
-});
+// });
 // END EDAMAM CALL ----------------------------------------------------
 
 // START SPOONACULAR CALL ---------------------------------------------
@@ -116,7 +166,7 @@ const spoonCallURL = `https://api.spoonacular.com/recipes/convert?ingredientName
 // <!-- const API_ID = "bb9ad742"
 // const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd"
 // const URl =`https://api.edamam.com/search?q=chicken&app_id=${APP_KEY}&app_key=${API_ID}`;
-g
+
 // console.log(URL);
 
 // $.ajax({
