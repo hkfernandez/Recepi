@@ -34,20 +34,74 @@ console.log('is working');
 
 
 //Maria's app ID, & app key for spanish endpoint
-// const APP_ID = "bb9ad742";
-// const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd";
+const APP_ID = "bb9ad742";
+const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd";
 
 
 
 // START EDAMAM CALL--------------------------------------------------------
 //variable that will hold user input from search textbox
-// const userInputSpanish = '';
-// const url = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/search?q=${userInputSpanish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+const userInputSpanish = 'ensalada'; //testing will clear ensalada once finished gathering data points
+const urlSpan = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/search?q=${userInputSpanish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
 
 //need verification to ensure user input something and in the correct language - is searching spanish keysearch words much be in spanish
 
 
-//AJAX call to spanish beta path for recipe search through Edamam
+// AJAX call to SPANISH beta path for recipe search through Edamam
+$.ajax({
+    url: urlSpan,
+    method: "GET"
+}).then(function (response) {
+    console.log(response);
+    //MARIA ----------------- adding response for each data point we are retreiving from edamam spanish endpoint------
+    //recipe Name
+    console.log(response.hits[0].recipe.label); // brackets we input the # 0-9 to target each recipe endpoint is returning
+
+    //recipe image
+    console.log(response.hits[0].recipe.image);
+
+    //ingredients that only have text - returned as array of strings
+    console.log(response.hits[0].recipe.ingredientLines);
+
+    //ingredients that include measurements w/text returned as array of objects with key/value pairs --- i think this will be most useful for us
+    // console.log(response.hits[0].recipe.ingredients);
+
+    //target individual ingredients in array of objects
+    console.log(response.hits[0].recipe.ingredients[0].food) //returns the name of the ingredient
+    console.log(response.hits[0].recipe.ingredients[0].measure); //returns the unit of measurement for ingredient
+    console.log(response.hits[0].recipe.ingredients[0].quantity); //returns how much of ingredient will need in unit of measurement from line 71
+    console.log(response.hits[0].recipe.ingredients[0].text); //returns amt needed of ingredient in a string
+    console.log(response.hits[0].recipe.ingredients[0].weight); // returns the amount needed of ingredient in grams 
+
+    //url to recipe instructions - Edamam does not include instructions to recipe
+    console.log(response.hits[0].recipe.url);
+
+    //could not find endpoint that gives us a rating for the recipe, level of difficulty or time to complete
+
+    //-------END MARIA edits----------------------------------------------------------
+});
+
+
+
+
+
+//  Omar APP ID "bb9ad742";
+// Maria APP ID "588c938a";
+
+// Omar App KEY "f1f0e0febcb485de149281ede51c6ffd"
+//  Maria APP Key "52561e55f1ad9a36b20b7445df72154b";
+
+// const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd"
+// const APP_ID = "bb9ad742"; //use this to switch out team memebers key to test - variable that will go into 
+
+//variable that will hold user input from search textbox
+// const userInputEnglish = '';
+// const url = `https://api.edamam.com/search?q=${userInputEnglish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+
+//need verification to ensure user input something and in the correct language - is searching spanish keysearch words much be in spanish
+
+
+//AJAX call to ENGLISH path for recipe search through Edamam
 // $.ajax({
 //     url: url,
 //     method: "GET"
@@ -56,48 +110,15 @@ console.log('is working');
 
 
 // });
-
-
-//variable that will hold user input from search textbox
-// const url = `https://api.edamam.com/search?q=${userInputEnglish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
-//Maria's app ID, & app key for english endpoint
-const APP_ID = "bb9ad742";
-
-//  Omar APP ID "bb9ad742";
-// Maria APP ID "588c938a";
-
-const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd"
-
-// Omar App KEY "f1f0e0febcb485de149281ede51c6ffd"
-//  Maria APP Key "52561e55f1ad9a36b20b7445df72154b";
-
-
-
-//variable that will hold user input from search textbox
-const userInputEnglish = 'chicken';
-const url = `https://api.edamam.com/search?q=${userInputEnglish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
-
-//need verification to ensure user input something and in the correct language - is searching spanish keysearch words much be in spanish
-
-
-//AJAX call to spanish beta path for recipe search through Edamam
-$.ajax({
-    url: url,
-    method: "GET"
-}).then(function (response) {
-    console.log(response);
-
-
-});
 // END EDAMAM CALL ----------------------------------------------------
 
 // START SPOONACULAR CALL ---------------------------------------------
 // hector's api for spooacular 
 const keySpoonHector = "40e409872bc049d28deda10508960781";
-const ingredientName="flour";
-const sourceAmount="2";
-const sourceUnit="cups";
-const targetUnit="grams";
+const ingredientName = "flour";
+const sourceAmount = "2";
+const sourceUnit = "cups";
+const targetUnit = "grams";
 const spoonCallURL = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredientName}&sourceAmount=${sourceAmount}&sourceUnit=${sourceUnit}&targetUnit=${targetUnit}&apiKey=${keySpoonHector}`
 
 //AJAX call to unit conversion path
@@ -116,7 +137,7 @@ const spoonCallURL = `https://api.spoonacular.com/recipes/convert?ingredientName
 // <!-- const API_ID = "bb9ad742"
 // const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd"
 // const URl =`https://api.edamam.com/search?q=chicken&app_id=${APP_KEY}&app_key=${API_ID}`;
-g
+
 // console.log(URL);
 
 // $.ajax({
