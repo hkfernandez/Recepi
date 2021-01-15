@@ -27,6 +27,56 @@ Button to remove saved recipe from local storageSave found recipes
 What happens when you click on save?error check to prevent duplicatessaved to local storageupdate recentsAdd notes by user?
 */
 
+// START WIREFRAME HECTOR----------------------------------------------------
+// second container 
+$("#mainContainer").append($("<section>")
+    .attr("id", "secondContainer")
+ )
+// displayPane
+$("#mainContainer").append($("<section>")
+    .attr("id", "displayPane")
+    .text ("displayPane")
+)
+// searchPane
+$("#secondContainer").append($("<nav>")
+    .attr("id", "searchPane")
+    .text ("searchPane")
+    )
+// recentsPane
+$("#secondContainer").append($("<nav>")
+    .attr("id", "recentsPane")
+    .text ("recentsPane")
+    )
+// search bar
+$("#searchPane").append($("<form>")
+    .attr("class", "uk-search uk-search-default")
+    .append ($("<input>")
+        .attr("id", "searchBar")
+        .attr("class", "uk-search-input")
+        .attr("type", "search")
+        .attr("placeholder", "Search...")
+    )
+)
+// search button
+    $("#searchPane").append($("<button>")
+        .attr("id", "searchBtn")
+        .attr("class", "uk-button uk-button-default")
+        .text("Search")  
+)
+// recentsPane header
+$("#recentsPane").append($("<H3>")
+.text("My Recipes")    
+)
+// recents list
+$("#recentsPane").append($("<nav>")
+    .attr("id", "recentsList")
+    .text("Recents List")    
+)
+
+
+
+// END WIREFRAME-------------------------------------------------------- 
+
 
 
 //check to see js connected
@@ -77,6 +127,10 @@ $.ajax({
     console.log(response.hits[0].recipe.url);
 
     //could not find endpoint that gives us a rating for the recipe, level of difficulty or time to complete
+
+    //yield of recipe ---- # of servings
+    console.log(response.hits[0].recipe.yield);
+    
 
     //-------END MARIA edits----------------------------------------------------------
 });
