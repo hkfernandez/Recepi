@@ -27,6 +27,26 @@ Button to remove saved recipe from local storageSave found recipes
 What happens when you click on save?error check to prevent duplicatessaved to local storageupdate recentsAdd notes by user?
 */
 
+// START WIREFRAME HECTOR----------------------------------------------------
+ $("#mainContainer").append($("<section>")
+    .attr("id", "secondContainer")
+ )
+ $("#mainContainer").append($("<section>")
+    .attr("id", "displayPane")
+    .text ("dispalyPane")
+)
+$("#secondContainer").append($("<nav>")
+    .attr("id", "searchPane")
+    .text ("searchPane")
+)
+$("#secondContainer").append($("<nav>")
+    .attr("id", "recentsPane")
+    .text ("recentsPane")
+)
+
+
+// END WIREFRAME-------------------------------------------------------- 
+
 
 
 //check to see js connected
