@@ -10,7 +10,7 @@ global variables
     currentRecipeState - "saved" or "unsaved"
     toggleEnglishSpanish - "english" or "spanish"
     searchResultsSet - variable from 0-3 that controls which current grouping of search results they are viewing
-    englishWeightUnits [lbs, oz, etc]
+    englishWeightUnits - [lbs, oz, etc]
     englishVolumeUnits - [cups, tsp, etc]
     metricWeightUnits - [g, mg, etc]
     metricVolumeUnits - [l, ml, etc]
@@ -22,8 +22,8 @@ Local Storage
 
 
 Basic Idea 
-    - anytime someone does a search or opens an item on local storage, the array created is set to the recipesArr variable
-    - Anytime someone is viewing the details of a recipe in the displayPane, that recipe is put into the currentRecipe avariable and its index in the recipesArr is set to the current recipeIndex variable and the currentRecipeState is set to saved (for recipes pulled from the user's saved recipes) or unsaved for recipes that are part of the users latest search
+    - anytime someone does a search or opens an item on local storage, the array created is set to the recipesArr global variable
+    - Anytime someone is viewing the details of a recipe in the displayPane, that recipe is put into the currentRecipe variable and its index in the currentRecipesArr is set to the currentRecipeIndex variable and the currentRecipeState is set to saved (for recipes pulled from the user's saved recipes) or unsaved for recipes that are part of the users latest search
     - the current recipe is pushed to local storage every time a change it made; the key used for this is different from the key used to store the users saved recipes
     - not until the user chooses to save the recipe to their personal collection is it added to the recipeArray in local storage
 
@@ -60,7 +60,7 @@ Search for recipes click event when click submit or hit enter
         search validation
             trim search results
             enter user input into a varible
-            if variable is blonk do nothing - return
+            if variable is blank do nothing - return
             if if actual text send to ajax call
             if ajax call returns an error stop script and return a modal to user saying invalid search
                 modal can be dismissed

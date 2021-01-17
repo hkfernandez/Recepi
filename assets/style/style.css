@@ -11,8 +11,8 @@ body {
 }
 #secondContainer {
     border: 2px solid red;
-    width: 50%;
-    height: 100%;
+    /* width: 50%;
+    height: 100%; */
 }
 #searchPane{
     border: 2px solid blue;
@@ -24,7 +24,7 @@ body {
 }
 #displayPane {
     border: 2px solid black;
-    width: 50%;
+    /* width: 50%; */
     height: 100%;
 }
 #searchBar {
