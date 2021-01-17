@@ -1,3 +1,16 @@
+// START GLOBAL VARIABLES ---------------------------------------------------
+var currentRecipesArr;
+var currentRecipe;
+var currentRecipeIndex;
+var currentRecipeState;
+var toggleEnglishSpanish;
+var searchResultsSet;
+var englishWeightUnits = ["oz", "lbs"];
+var englishVolumeUnits = ["tsp", "Tsp", "cup", "pint", "quart", "gallon"];
+var metricWeightUnits = ["mg", "gm", "kg"];
+var metricVolumeUnits = ["ml", "ltr" ];
+var currentIngredientId;
+// END GLOBAL VARIABLE ------------------------------------------------------
 
 
 // START WIREFRAME HECTOR----------------------------------------------------
