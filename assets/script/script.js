@@ -12,6 +12,30 @@ var metricVolumeUnits = ["ml", "ltr" ];
 var currentIngredientId;
 // END GLOBAL VARIABLE ------------------------------------------------------
 
+/* START FUNCTION LIST-------------------------------------------------------
+*** see pseudoCode.md for details
+
+build savedRecipesList
+pullSavedLocalStorage
+postSavedRecipes
+postCurrentRecipe?
+displayRecipe
+searchRecipes
+displayThumbnails (startingIndex) 
+seeNextRecipeSet
+userAlertSearchResultsEnded?
+displaySelectedRecipe
+displaySelectedRecipe
+displayConversionUnits
+displayConversionUnits
+postConvertedUnits
+deleteConversion
+recallSavedRecipes
+postRecentSavedRecipe
+saveRecipe
+deleteRecipe
+
+END FUNCTION LIST ---------------------------------------------------------*/
 
 // START WIREFRAME HECTOR----------------------------------------------------
 // second container 
