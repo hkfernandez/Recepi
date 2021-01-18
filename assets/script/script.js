@@ -1,6 +1,6 @@
 // START GLOBAL VARIABLES ---------------------------------------------------
 // 
-var currentRecipesArr = [{recipeName: "Baked Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"",500], ["sugar",1,"","100"]]}, {recipeName: "More Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans",4,"",500], ["sugar",1,"","100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"",500], ["sugar",1,"","100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans",4,"",500], ["sugar",1,"","100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"",500], ["sugar",1,"","100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans",4,"",500], ["sugar",1,"","100"]]}];
+var currentRecipesArr = [{recipeName: "Baked Beans", recipeUrl: "https//test", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "More Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"cups",500], ["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}];
 var currentRecipe;
 var currentRecipeIndex = 0;
 var currentRecipeState;
@@ -391,17 +391,17 @@ console.log('is working');
 function displayThumbnailViews (){
     // for (i=searchResultsSet*6; i<searchResultsSet*6+6; i++){
     for (i=0; i < currentRecipesArr.length ; i++){
-        $("#displayPane").append($("<div>"))
+        $("#displayPane").append($("<div>")  
             .attr("data-arrIndex", i)
             .attr("class", "thumbnail")
             .append($("<div>")
                 .attr("id", `card${i}`)
-                .attr("class", "uk-card uk-card-default uk-card-body"))
+                .attr("class", "uk-card uk-card-default uk-card-body")
                 .append($("<div>")
-                    .attr("class","uk-card-media-top"))
+                    .attr("class","uk-card-media-top")
                     .append($("<img>")
                         .attr("src", currentRecipesArr[i].recipeImgSrc)
-                        .attr("alt", "Recipe Image"))
+                        .attr("alt", "Recipe Image")))))
                 $(`#card${i}`).append($("<div>")
                     .attr("class", "uk-card-body")
                     .append($("<h3>")
@@ -420,7 +420,7 @@ function displayThumbnailViews (){
 displayThumbnailViews ();
 
 function displayRecipe(){
-    currentRecipeIndex = $(this).attr("data-index");
+ 
     $("#displayPane").empty();
 
     let recipeCard = $('<div>').attr('class', 'uk-card uk-card-hover');
@@ -439,26 +439,26 @@ function displayRecipe(){
     recipeCard.append($('<div>', { id: 'ingredientsContainer', class: '' }));
     
     for (i = 0; i < currentRecipesArr[currentRecipeIndex].ingredients.length; i++) {
-        $("#ingredientsContainer").append$($("<div>")
+        $("#ingredientsContainer").append($("<div>")
             .attr("data-index", i)
             .append($("<span>")
                 .attr("class", "ingredient")
-                .text(ingredientsArr[i][0]))
+                .text(`${ingredientsArr[i][0]} `))
                 .append($("<span>")
-                    .attr("class", "measure")
-                    .attr("id", `measure${i}`)
-                    .text(ingredientsArr[i][1])))
+                    .attr("class", "qty")
+                    .text(`${ingredientsArr[i][2]} `)
                     .append($("<span>")
-                        .attr("id", `quantity${i}`)
-                        .text(ingredientsArr[i][2]))
+                        .attr("class", "measure")
+                        .text(`${ingredientsArr[i][1]} - `))
                         .append($("<span>")
-                            .attr("id", `grams${i}`)
-                            .text(ingredientsArr[i][3]))
+                            .attr("class", "grams")
+                            .text(`${ingredientsArr[i][3]} grams`))))
     }
 }
 
 $(".thumbnail").on("click", function () {
     currentRecipeIndex = $(this).attr("data-arrIndex");
+    console.log($(this).attr("data-arrIndex"));
     displayRecipe ();
 })
 
