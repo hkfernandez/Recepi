@@ -4,7 +4,7 @@ var currentRecipesArr = [{recipeName: "Baked Beans", recipeImgSrc: "assets/testI
 var currentRecipe;
 var currentRecipeIndex;
 var currentRecipeState;
-var toggleEnglishSpanish;
+var toggleEnglishSpanish = "english";
 var searchResultsSet;
 var englishWeightUnits = ["oz", "lbs"];
 var englishVolumeUnits = ["tsp", "Tsp", "cup", "pint", "quart", "gallon"];
@@ -67,7 +67,7 @@ $("#searchPane").append($("<form>")
         .attr("id", "searchBar")
         .attr("class", "uk-search-input")
         .attr("type", "search")
-        .attr("placeholder", "Search...")
+        .attr("placeholder", "Search in English...")
     )
 )
 // search button
@@ -76,6 +76,14 @@ $("#searchPane").append($("<button>")
     .attr("class", "uk-button uk-button-default")
     .text("Search")
 )
+
+// toggle english/spanish button
+$("#searchPane").append($("<button>")
+    .attr("id", "toggleLanguage")
+    .attr("class", "uk-button uk-button-link")
+    .text("Español")
+)
+
 // recentsPane header
 $("#recentsPane").append($("<H3>")
     .text("My Recipes")
@@ -88,7 +96,98 @@ $("#recentsPane").append($("<nav>")
 
 // END WIREFRAME-------------------------------------------------------- 
 
+// Search Function - DORY START ----------------------------------------
+const APP_ID = "bb9ad742";
+const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd";
 
+$("#toggleLanguage").on("click", function() {
+    if (toggleEnglishSpanish === "english") {
+        
+        toggleEnglishSpanish = "spanish";
+        $("#searchBar").attr("placeholder", "Buscar en Español...");
+        $("#toggleLanguage").text("English");
+    } else {
+        toggleEnglishSpanish = "english";
+        $("#searchBar").attr("placeholder", "Search in English...");
+        $("#toggleLanguage").text("Español");
+    }
+});        
+
+$("#searchBtn").on("click", function() {
+    if (toggleEnglishSpanish === "english") {
+        
+        var userInput = $("#searchBar").val();
+        englishSearch(userInput);
+    } else {
+        var userInput = $("#searchBar").val();
+        spanishSearch(userInput);
+    
+    }
+
+    $("#searchBar").val("");
+
+})
+function spanishSearch(searchValue) {
+    
+    var urlSpanish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+
+        $.ajax({
+            url: urlSpanish,
+            method: "GET"
+        }).then(function (response){
+            console.log(response);
+        })
+}
+
+function englishSearch(searchValue) {
+    
+    var urlEnglish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+
+        $.ajax({
+            url: urlEnglish,
+            method: "GET"
+        }).then(function (response){
+            console.log(response);
+        })
+}
+
+
+//             let recipeName = response.hits[0].recipe.label;
+//     //create card
+//     let recipeCard = $('<div>').attr('class', 'uk-card uk-card-hover');
+//     //apend card to display pane
+//     $('#displayPane').append(recipeCard);
+//     //append card title to card
+//     recipeCard.append($('<div>', { id: 'recipeName0', text: recipeName, class: 'uk-text-center uk-text-uppercase uk-card-title' }));
+//     //create card body and append to card
+//     recipeCardBody = recipeCard.append($('<div>', {id:'card0body', class: 'uk-card-body',}));
+    
+//     //recipe image
+//     let recipeImgSrc = response.hits[0].recipe.image;
+    
+//     //for-loop or while loop with counter to get all of the ingredients from ingredients[0]-length of array 
+
+//     //name of Ing
+    
+//     let ingName = response.hits[0].recipe.ingredients[0].food;
+//     // recipeCard.append($('<div>',{id:'ingName0',text:ingName}));
+//     //measure of Ing
+//     let ingMeasure = response.hits[0].recipe.ingredients[0].measure;
+//     // recipeCard.append($('<div>',{id:'ingMsmt0',text:ingMeasure}));
+//     //quantity of Ing
+//     let ingQuant = response.hits[0].recipe.ingredients[0].quantity;
+//     // recipeCard.append($('<div>',{id:'ingQuant0',text:ingQuant})); 
+//     //text - string of measurement w/ ing name
+//     let ingText = response.hits[0].recipe.ingredients[0].text;
+//     // recipeCard.append($('<div>',{id:'ingText0',text:ingText}));
+//     //amt of Ing in grams
+//     let ingGrams = response.hits[0].recipe.ingredients[0].weight;
+
+//         })
+
+// }
+
+// Search Function - DORY END ----------------------------------------
 
 //check to see js connected
 console.log('is working');
@@ -103,21 +202,21 @@ console.log('is working');
 
 
 //Maria's app ID, & app key for spanish endpoint
-const APP_ID = "bb9ad742";
-const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd";
+// const APP_ID = "bb9ad742";
+// const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd";
 
 
 
-// START EDAMAM CALL--------------------------------------------------------
+// // START EDAMAM CALL--------------------------------------------------------
 
-//variable that will hold user input from search textbox
-const userInputSpanish = 'ensalada'; //testing will clear ensalada once finished gathering data points
+// //variable that will hold user input from search textbox
+// const userInputSpanish = 'ensalada'; //testing will clear ensalada once finished gathering data points
 
-//need verification to ensure user input something and in the correct language - is searching spanish keysearch words much be in spanish
+// //need verification to ensure user input something and in the correct language - is searching spanish keysearch words much be in spanish
 
-const urlSpan = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/search?q=${userInputSpanish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+// const urlSpan = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/search?q=${userInputSpanish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
 
-// AJAX call to SPANISH beta path for recipe search through Edamam
+// // AJAX call to SPANISH beta path for recipe search through Edamam
 // $.ajax({
 //     url: urlSpan,
 //     method: "GET"
@@ -243,6 +342,13 @@ const urlSpan = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/
 
 
 
+
+
+//     //-------END MARIA edits----------------------------------------------------------
+// });
+
+
+
 // //variable that will hold user input from search textbox
 // const userInputEnglish = 'chicken';
 
@@ -263,12 +369,12 @@ const urlSpan = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/
 
 // START SPOONACULAR CALL ---------------------------------------------
 // hector's api for spooacular 
-const keySpoonHector = "40e409872bc049d28deda10508960781";
-const ingredientName = "flour";
-const sourceAmount = "2";
-const sourceUnit = "cups";
-const targetUnit = "grams";
-const spoonCallURL = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredientName}&sourceAmount=${sourceAmount}&sourceUnit=${sourceUnit}&targetUnit=${targetUnit}&apiKey=${keySpoonHector}`
+// const keySpoonHector = "40e409872bc049d28deda10508960781";
+// const ingredientName = "flour";
+// const sourceAmount = "2";
+// const sourceUnit = "cups";
+// const targetUnit = "grams";
+// const spoonCallURL = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredientName}&sourceAmount=${sourceAmount}&sourceUnit=${sourceUnit}&targetUnit=${targetUnit}&apiKey=${keySpoonHector}`
 
 // AJAX call to unit conversion path
 // $.ajax({
