@@ -1,5 +1,6 @@
 // START GLOBAL VARIABLES ---------------------------------------------------
-var currentRecipesArr;
+// 
+var currentRecipesArr = [{recipeName: "Baked Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]}, {recipeName: "More Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]}];
 var currentRecipe;
 var currentRecipeIndex;
 var currentRecipeState;
@@ -21,7 +22,7 @@ postSavedRecipes
 postCurrentRecipe?
 displayRecipe
 searchRecipes
-displayThumbnails (startingIndex) 
+displayThumbnails (startingIndex) - hector
 seeNextRecipeSet
 userAlertSearchResultsEnded?
 displaySelectedRecipe
@@ -46,7 +47,8 @@ $("#mainContainer").append($("<section>")
 // displayPane
 $("#mainContainer").append($("<section>")
     .attr("id", "displayPane")
-    .text("displayPane")
+    // .attr("uk-grid", "")
+    // .attr("class", "uk-child-width-1-2@s uk-child-width-1-3@m uk-text-center")
 )
 // searchPane
 $("#secondContainer").append($("<nav>")
@@ -91,8 +93,6 @@ $("#recentsPane").append($("<nav>")
     .attr("id", "recentsList")
     .text("Recents List")
 )
-
-
 
 // END WIREFRAME-------------------------------------------------------- 
 
@@ -192,12 +192,12 @@ function englishSearch(searchValue) {
 //check to see js connected
 console.log('is working');
 
-//  Omar APP ID "bb9ad742";
+// Omar APP ID "bb9ad742";
 // Maria APP ID "588c938a";
 // Dory APP ID "d646e635"
 
 // Omar App KEY "f1f0e0febcb485de149281ede51c6ffd"
-//  Maria APP Key "52561e55f1ad9a36b20b7445df72154b";
+// Maria APP Key "52561e55f1ad9a36b20b7445df72154b";
 // Dory APP KEY "549406eaebcc7c23fdc7927fa1ea196c"
 
 
@@ -336,6 +336,9 @@ console.log('is working');
 
 
 //     console.log(recipeCard);
+// });
+//     //-------END MARIA edits----------------------------------------------------------
+
 
 
 
@@ -346,6 +349,24 @@ console.log('is working');
 
 
 
+// //variable that will hold user input from search textbox
+// const userInputEnglish = 'chicken';
+
+// const urlEnglish = `https://api.edamam.com/search?q=${userInputEnglish}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+
+// $.ajax({
+//     url: urlEnglish,
+//     method: "GET"
+// }).then(function (response) {
+//     console.log(response);
+
+
+// });
+
+
+// });
+// END EDAMAM CALL ----------------------------------------------------
+
 // START SPOONACULAR CALL ---------------------------------------------
 // hector's api for spooacular 
 // const keySpoonHector = "40e409872bc049d28deda10508960781";
@@ -355,7 +376,7 @@ console.log('is working');
 // const targetUnit = "grams";
 // const spoonCallURL = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredientName}&sourceAmount=${sourceAmount}&sourceUnit=${sourceUnit}&targetUnit=${targetUnit}&apiKey=${keySpoonHector}`
 
-//AJAX call to unit conversion path
+// AJAX call to unit conversion path
 // $.ajax({
 //     url: spoonCallURL,
 //     method: "GET"
@@ -366,6 +387,47 @@ console.log('is working');
 // });
 
 // END SPOONACULAR CALL ---------------------------------------------
+
+function displayThumbnailViews (){
+    // for (i=searchResultsSet*6; i<searchResultsSet*6+6; i++){
+    for (i=0; i < currentRecipesArr.length ; i++){
+        // $("#displayPane").append($("<div>"))
+        //     .append($("<div>")
+        //         .attr("id", `card${i}`)
+        //         .attr("class", "uk-card uk-card-default uk-card-body"))
+        //         .append($("<div>")
+        //             .attr("class","uk-card-media-top"))
+        //             .append($("<img>")
+        //                 .attr("src", currentRecipesArr[i].recipeImgSrc)
+        //                 .attr("alt", "Recipe Image"))
+        //         $(`#card${i}`).append($("<div>")
+        //             .attr("class", "uk-card-body")
+        //             .append($("<h3>")
+        //                 .text(currentRecipesArr[i].recipeName)))
+        $("#displayPane").append($("<div>"))
+            .append($("<div>")
+                .attr("id", `card${i}`))
+                .append($("<div>"))
+                    .append($("<img>")
+                        .attr("src", currentRecipesArr[i].recipeImgSrc)
+                        .attr("alt", "Recipe Image"))
+                $(`#card${i}`).append($("<div>")
+                    .append($("<h3>")
+                        .text(currentRecipesArr[i].recipeName)))
+                
+    }
+}
+{/* <div class="uk-card uk-card-default">
+    <div class="uk-card-media-top">
+        <img src="images/light.jpg" alt="">
+    </div>
+    <div class="uk-card-body">
+        <h3 class="uk-card-title">Media Top</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+    </div>
+</div> */}
+displayThumbnailViews ();
+
 
 // ..... REFERENCE...............
 // <!-- const API_ID = "bb9ad742"
