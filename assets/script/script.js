@@ -27,6 +27,7 @@ Button to remove saved recipe from local storageSave found recipes
 What happens when you click on save?error check to prevent duplicatessaved to local storageupdate recentsAdd notes by user?
 */
 
+//https://api.spoonacular.com/recipes/findByIngredients?ranking=1&ingredients=eggs
 
 
 //check to see js connected
