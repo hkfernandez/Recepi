@@ -1,7 +1,7 @@
 
 // START GLOBAL VARIABLES ---------------------------------------------------
 // 
-var currentRecipesArr = [{recipeName: "Baked Beans", recipeUrl: "https//test", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "More Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"cups",500], ["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}];
+var currentRecipesArr = [{recipeName: "Baked Beans", recipeUrl: "https//test", recipeImgSrc: "https://www.edamam.com/web-img/926/926993720edade9fea50fb91084039e0.jpg", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "More Beans", recipeImgSrc: "https://www.edamam.com/web-img/66f/66f7346e672cd0b1689cf918847cb481.jpg", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"cups",500], ["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}];
 var currentRecipe;
 var currentRecipeIndex = 0;
 var currentRecipeState;
@@ -26,7 +26,7 @@ $("#mainContainer").append($("<section>")
 $("#mainContainer").append($("<section>")
     .attr("id", "displayPane")
     .attr("uk-grid", "")
-    .attr("class", "uk-grid-large uk-grid-row-large")
+    .attr("class", "uk-grid-small")
 )
 // searchPane
 $("#secondContainer").append($("<nav>")
@@ -215,21 +215,23 @@ function convertUnit(ingredient, amount, initialUnit, targetUnit) {
 function displayThumbnailViews (){
     // for (i=searchResultsSet*6; i<searchResultsSet*6+6; i++){
     for (i=0; i < currentRecipesArr.length ; i++){
-        $("#displayPane").append($("<div>")  
-            .attr("data-arrIndex", i)
-            .attr("class", "thumbnail uk-card uk-card-default uk-card-body uk-width-1-1@s uk-width-1-2@m uk-width-1-3@lg uk-height-small")
-            .attr("id", `card${i}`)
-            .append($("<div>")
-                .attr("class", "uk-card-media-top")
-                .append($("<img>")
-                    .attr("alt", "Recipe Image")
-                    .attr("class", "thumbnail")
-                    .attr("src", currentRecipesArr[i].recipeImgSrc))))
-            $(`#card${i}`).append($("<div>")
-                .attr("class", "uk-card-body uk-text-center")
-                .append($("<h5>")
-                    .attr("class", "uk-card-title")
-                    .text(currentRecipesArr[i].recipeName)))   
+        $("#displayPane").append($("<div>")
+            .append ($("<div>")  
+                .attr("data-arrIndex", i)
+                .attr("data-arrIndex", i)
+                .attr("class", "uk-card uk-card-default uk-width-1-1@s uk-width-1-2@m uk-width-1-3@lg")
+                .attr("id", `card${i}`)
+                .append($("<div>")
+                    .attr("class", "uk-card-media-top")
+                    .append($("<img>")
+                        .attr("alt", "Recipe Image")
+                        .attr("class", "thumbnail uk-align-center")
+                        .attr("src", currentRecipesArr[i].recipeImgSrc)))))
+                $(`#card${i}`).append($("<div>")
+                    .attr("class", "uk-text-center uk-text-top")
+                    .append($("<h5>")
+                        .attr("class", "uk-text-center uk-text-top")
+                        .text(currentRecipesArr[i].recipeName)))   
     }
 }
         
