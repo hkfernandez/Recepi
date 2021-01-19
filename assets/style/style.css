@@ -37,3 +37,18 @@ body {
 .thumbnailImage {
     height: 100px;
 }
+.ingFood {
+    display: none;
+}
+.ingQty {
+    display: none;
+}
+.ingMeasure {
+    display: none;
+}
+.ingWeight {
+    display: none;
+}
+.returnBtn {
+    display: block;
+}

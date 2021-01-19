@@ -197,6 +197,13 @@ function displayThumbnailViews (){
                         .attr("class", "uk-text-center uk-text-top")
                         .text(currentRecipesArr[i].recipeName)))   
     }
+    $(".thumbnail").on("click", function () {
+        currentRecipeIndex = $(this).attr("data-arrIndex");
+        currentRecipe = currentRecipesArr[currentRecipeIndex];
+        // console.log(currentRecipe);
+        // console.log($(this).attr("data-arrIndex"));
+        displayRecipe ();
+    })
 }
         
 // displayThumbnailViews ();
@@ -209,51 +216,77 @@ function displayRecipe(){
     $('#displayPane').append(recipeCard);
     recipeCardBody = recipeCard.append($('<div>', {id:'card0body', class: 'uk-card-body',}));
 
-    var name = currentRecipesArr[currentRecipeIndex].recipeName;
-    var image = currentRecipesArr[currentRecipeIndex].recipeImgSrc;
-    var recipeUrl = currentRecipesArr[currentRecipeIndex].recipeURL;
-    var ingredientsArr = currentRecipesArr[currentRecipeIndex].ingredients
+    var name = currentRecipe.recipeName;
+    var image = currentRecipe.recipeImgSrc;
+    var recipeUrl = currentRecipe.recipeUrl;
+    var ingredientsArr = currentRecipe.recipeIngredients
 
     recipeCard.append($('<div>', { id: 'recipeName', text: name, class: ' uk-text-uppercase uk-card-title' }));
     recipeCardBody.append($('<img>', { id: 'recipeImg', src: image}));
     recipeCardBody.append($('<div>', { id: 'imgDiv'}));
-    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'Recipe URL', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
-    recipeCard.append($('<div>', { id: 'ingredientsContainer', class: '' }));
+    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'More Details', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
+    recipeCard.append($('<div>', { id: 'ingredientsContainer', class: 'ingredients' }));
     
-    for (i = 0; i < currentRecipesArr[currentRecipeIndex].ingredients.length; i++) {
+    for (i = 0; i < ingredientsArr.length; i++) {
         $("#ingredientsContainer").append($("<div>")
             .attr("data-index", i)
             .append($("<span>")
-                .attr("class", "ingredient")
-                .text(`${ingredientsArr[i][0]} `))
+                .attr("class", "ingText")
+                .text(ingredientsArr[i][0]))
                 .append($("<span>")
-                    .attr("class", "qty")
-                    .text(`${ingredientsArr[i][2]} `)
+                    .attr("class", "ingFood")
+                    .text(ingredientsArr[i][1])
                     .append($("<span>")
-                        .attr("class", "measure")
-                        .text(`${ingredientsArr[i][1]} - `))
+                        .attr("class", "ingQty")
+                        .text(ingredientsArr[i][2]))
                         .append($("<span>")
-                            .attr("class", "grams")
-                            .text(`${ingredientsArr[i][3]} grams`))))
+                            .attr("class", "ingMeasure")
+                            .text(ingredientsArr[i][3])
+                            .append($("<span>")
+                                .attr("class", "ingWeight")
+                                .text(ingredientsArr[i][4])))))
+    }
+
+    if (currentRecipeState === "unsaved") {
+        $("#ingredientsContainer").append($("<button>")
+            .attr("id", "saveBtn")
+            .text("SAVE")
+            .attr("class", "saveBtn uk-button uk-button-primary uk-button-sm"));
+        $("#saveBtn").on("click", function (){
+            // saveCurrentRecipeToSaved ();
+            $("#saveBtn").text("SAVED")
+                .attr("class", "saved uk-button-default uk-button-sm")
+                .attr("disabled>Disabled")
+            })
+        $("#ingredientsContainer").append($("<button>")
+            .attr("id", "returnBtn")
+            .text("RETURN TO SEARCH RESULTS")
+            .attr("class", "returnBtn uk-button uk-button-text uk-button-sm"));
+        $("#retunBtn").on("click", function (){
+            displayThumbnailViews ();
+        })
+    } else {
+        $("#ingredientsContainer").append($("<button>")
+            .attr("id", "deleteBtn uk-button uk-button-default uk-button-small")
+            .text("REMOVE FROM FAVORITES")
+            .attr("class", "saveBtn"));
+        $("#saveBtn").on("click", function (){
+            // removeCurrentRecipeFromSaved ();
+            $("#saveBtn").text("REMOVED")
+            .attr("class", "removed uk-button-default uk-button-sm")
+            .attr("disabled>Disabled")
+        })
+        $("#ingredientsContainer").append($("<button>")
+            .attr("id", "returnBtn")
+            .text("RETURN TO FAVORITES")
+            .attr("class", "returnBtn uk-button uk-button-text uk-button-sm"));
+        $("#retunBtn").on("click", function (){
+            displayThumbnailViews ();
+        })
     }
     pushCurrentLocalStorage();
 }
 
-$(".thumbnail").on("click", function () {
-    currentRecipeIndex = $(this).attr("data-arrIndex");
-    currentRecipe = currentRecipesArr[currentRecipeIndex];
-    console.log(currentRecipe);
-    console.log($(this).attr("data-arrIndex"));
-    displayRecipe ();
-})
-
-$(".thumbnail").on("click", function () {
-    currentRecipeIndex = $(this).attr("data-arrIndex");
-    currentRecipe = currentRecipesArr[currentRecipeIndex];
-    console.log(currentRecipe);
-    console.log($(this).attr("data-arrIndex"));
-    displayRecipe ();
-})
 
 function pushSavedLocalStorage(){
     localStorage.setItem("savedRecipes", JSON.stringify(currentRecipesArr));
