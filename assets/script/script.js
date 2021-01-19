@@ -1,3 +1,34 @@
+/* 
+searchPane - search bar
+savedPane - list of saved recipes
+detailsPane - shows search results and recipe details
+
+Search for recipes
+Toggle search between English and Spanish
+search validation
+Search returns 5 recipes 5 recipes shown in display pane w/ titles and picture and a name
+might be nice to display stars as well
+option to see more recipes
+select recipe and see details in detailsPane including larger photo, title, ingredients, ability to convert measurements, ability to save, ability to go back to 5 returned results
+Convert ingredient units when viewing recipe details
+select ingredients to convert by selecting measurements to convert to from dropdown beside each ingredient
+click button to show conversion values in addition to original values
+recipe is automatically saved after unit conversion
+converted units can be deleted at any time
+
+Recall saved recipes
+click on recipe shown in savedPanebutton in saved pane 
+button? to show all recipes by alpha
+recipes display similar to search results
+select a recipe
+display is similar to showing recipe details in Convert measurements etc
+Button to remove saved recipe from local storageSave found recipes
+
+What happens when you click on save?error check to prevent duplicatessaved to local storageupdate recentsAdd notes by user?
+*/
+
+//https://api.spoonacular.com/recipes/findByIngredients?ranking=1&ingredients=eggs
+
 // START GLOBAL VARIABLES ---------------------------------------------------
 // 
 var currentRecipesArr = [{recipeName: "Baked Beans", recipeUrl: "https//test", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "More Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"cups",500], ["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}];
@@ -125,6 +156,25 @@ $("#searchBtn").on("click", function(event) {
 });
 
 
+
+function englishSearch(searchValue) {
+    
+    var urlEnglish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+
+        $.ajax({
+            url: urlEnglish,
+            method: "GET"
+        }).then(function (response){
+            console.log(response);
+
+            var sampleIngredient = response.hits[0].recipe.ingredients[0];
+
+            console.log('Sample Ingredient: ' + sampleIngredient)
+            // test unit convert function
+            convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'teaspoon');
+        })
+}
+
 function webSearch(searchValue) {
 
     if (toggleEnglishSpanish = "english") {
@@ -141,6 +191,7 @@ function webSearch(searchValue) {
     })
       
 } 
+
 
 
 //             let recipeName = response.hits[0].recipe.label;
@@ -376,6 +427,28 @@ console.log('is working');
 
 
 // });
+
+function convertUnit(ingredient, amount, initialUnit, targetUnit) {
+    var urlConvertUnit = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredient}&sourceAmount=${amount}&sourceUnit=${initialUnit}&targetUnit=${targetUnit}`;
+    var API_KEY = 'd3a8582988694e8780200641aad4694b'
+
+    var API_KEY2 = 'eedc150ed7msh5507510bf70abc4p19b8a9jsn8b034ed95169'
+
+    const settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": `https://cors-anywhere.herokuapp.com/`+urlConvertUnit,
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": API_KEY,
+            "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+        }
+    };
+  
+        $.ajax(settings).then(function (response){
+            console.log("Converted Unit: " + response);
+        })
+}
 
 // END SPOONACULAR CALL ---------------------------------------------
 
