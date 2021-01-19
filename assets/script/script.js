@@ -113,43 +113,34 @@ $("#toggleLanguage").on("click", function() {
     }
 });        
 
-$("#searchBtn").on("click", function() {
-    if (toggleEnglishSpanish === "english") {
-        
-        var userInput = $("#searchBar").val();
-        englishSearch(userInput);
+$("#searchBtn").on("click", function(event) {
+    event.preventDefault();
+    var userInput = $("#searchBar").val();
+    if (userInput == null) {
+        return
     } else {
-        var userInput = $("#searchBar").val();
-        spanishSearch(userInput);
-    
+        webSearch(userInput);
+    }
+    $("#searchBar").val("");
+});
+
+
+function webSearch(searchValue) {
+
+    if (toggleEnglishSpanish = "english") {
+        var searchUrl = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+    }else{
+        var searchUrl = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
     }
 
-    $("#searchBar").val("");
-
-})
-function spanishSearch(searchValue) {
-    
-    var urlSpanish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
-
-        $.ajax({
-            url: urlSpanish,
-            method: "GET"
-        }).then(function (response){
-            console.log(response);
-        })
-}
-
-function englishSearch(searchValue) {
-    
-    var urlEnglish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
-
-        $.ajax({
-            url: urlEnglish,
-            method: "GET"
-        }).then(function (response){
-            console.log(response);
-        })
-}
+    $.ajax({
+        url: searchUrl,
+        method: "GET"
+    }).then(function (response){
+        console.log(response);
+    })
+      
+} 
 
 
 //             let recipeName = response.hits[0].recipe.label;
@@ -435,10 +426,3 @@ displayThumbnailViews ();
 // const URl =`https://api.edamam.com/search?q=chicken&app_id=${APP_KEY}&app_key=${API_ID}`;
 
 // console.log(URL);
-
-// $.ajax({
-// url: URl,
-// method: "GET" 
-// }).then(function(response){
-//     console.log(response);
-// });
