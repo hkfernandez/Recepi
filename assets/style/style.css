@@ -34,4 +34,6 @@ body {
 #recentsList {
     border: 2px solid green;
 }
-
+.thumbnailImage {
+    height: 100px;
+}

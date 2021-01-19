@@ -114,17 +114,18 @@ function webSearch(searchValue) {
         method: "GET"
     }).then(function (response){
         console.log(response);
-        var returnedRecipesArr = response.hits
-        setArrayToCurrentRecipesArr(returnedRecipesArr)
-        currentRecipeState = "unsaved"
+        var returnedRecipesArr = response.hits;
+        setArrayToCurrentRecipesArr(returnedRecipesArr);
+        currentRecipeState = "unsaved";
         console.log(currentRecipesArr)
+        displayThumbnailViews ();
     })  
       
-        var sampleIngredient = response.hits[0].recipe.ingredients[0];
+        // var sampleIngredient = response.hits[0].recipe.ingredients[0];
 
-        console.log(sampleIngredient)
-        // test unit convert function
-        convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'Tablespoon');
+        // console.log(sampleIngredient)
+        // // test unit convert function
+        // convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'Tablespoon');
 } 
 
 function setArrayToCurrentRecipesArr(arr) {
@@ -269,8 +270,7 @@ function pushCurrentLocalStorage(){
 function pullCurrentLocalStorage (){
     return currentRecipe = JSON.parse(localStorage.getItem("currentRecipe"));
 }
-var tempLocal = pullCurrentLocalStorage();
-console.log(tempLocal);
+
 
 
 
