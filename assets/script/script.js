@@ -189,16 +189,18 @@ function webSearch(searchValue) {
 // });
 
 function convertUnit(ingredient, amount, initialUnit, targetUnit) {
-    var urlConvertUnit = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredient}&sourceAmount=${amount}&sourceUnit=${initialUnit}&targetUnit=${targetUnit}`;
-    var API_KEY = 'd3a8582988694e8780200641aad4694b'
+    var API_KEY = 'd3a8582988694e8780200641aad4694b' 
+    var urlConvertUnit = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredient}&sourceAmount=${amount}&sourceUnit=${initialUnit}&targetUnit=${targetUnit}&apiKey=${API_KEY}`;
+    // (Spoonacular Keys)
+    
 
-    var API_KEY2 = 'eedc150ed7msh5507510bf70abc4p19b8a9jsn8b034ed95169'
+    // var API_KEY2 = 'eedc150ed7msh5507510bf70abc4p19b8a9jsn8b034ed95169'
 
     const settings = {
         "async": true,
         "crossDomain": true,
-        "url": `https://cors-anywhere.herokuapp.com/`+urlConvertUnit,
-        "method": "GET",
+        "url": `https://cors-anywhere.herokuapp.com/` + urlConvertUnit,
+        "method": "GET" ,
         "headers": {
             "x-rapidapi-key": API_KEY,
             "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
