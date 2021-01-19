@@ -1,7 +1,6 @@
 
 // START GLOBAL VARIABLES ---------------------------------------------------
-// 
-var currentRecipesArr = [{recipeName: "Baked Beans", recipeUrl: "https//test", recipeImgSrc: "https://www.edamam.com/web-img/926/926993720edade9fea50fb91084039e0.jpg", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "More Beans", recipeImgSrc: "https://www.edamam.com/web-img/66f/66f7346e672cd0b1689cf918847cb481.jpg", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"cups",500], ["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}];
+var currentRecipesArr = []
 var currentRecipe;
 var currentRecipeIndex = 0;
 var currentRecipeState;
@@ -74,7 +73,7 @@ $("#recentsPane").append($("<nav>")
 
 // END WIREFRAME-------------------------------------------------------- 
 
-// Search Function - DORY START ----------------------------------------
+
 const APP_ID = "bb9ad742";
 const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd";
 
@@ -102,24 +101,6 @@ $("#searchBtn").on("click", function(event) {
     $("#searchBar").val("");
 });
 
-function englishSearch(searchValue) {
-    
-    var urlEnglish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
-
-        $.ajax({
-            url: urlEnglish,
-            method: "GET"
-        }).then(function (response){
-            console.log(response);
-
-            var sampleIngredient = response.hits[0].recipe.ingredients[0];
-
-            console.log('Sample Ingredient: ' + sampleIngredient)
-            // test unit convert function
-            convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'teaspoon');
-        })
-}
-
 function webSearch(searchValue) {
 
     if (toggleEnglishSpanish = "english") {
@@ -138,6 +119,12 @@ function webSearch(searchValue) {
         currentRecipeState = "unsaved"
         console.log(currentRecipesArr)
     })  
+      
+        var sampleIngredient = response.hits[0].recipe.ingredients[0];
+
+        console.log(sampleIngredient)
+        // test unit convert function
+        convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'Tablespoon');
 } 
 
 function setArrayToCurrentRecipesArr(arr) {
@@ -173,67 +160,20 @@ function setArrayToCurrentRecipesArr(arr) {
     }  
 };
 
-
-// Omar APP ID "bb9ad742";
-// Maria APP ID "588c938a";
-// Dory APP ID "d646e635"
-// Omar App KEY "f1f0e0febcb485de149281ede51c6ffd"
-// Maria APP Key "52561e55f1ad9a36b20b7445df72154b";
-// Dory APP KEY "549406eaebcc7c23fdc7927fa1ea196c"
-//Maria's app ID, & app key for spanish endpoint
-// const APP_ID = "bb9ad742";
-// const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd";
-    
-//     //kcal - energy intake for food --entire recipe divide by yield if want per serving
-//     let calorieLabel = response.hits[0].recipe.totalNutrients.ENERC_KCAL.label;
-//     let calorieUnit = response.hits[0].recipe.totalNutrients.ENERC_KCAL.unit;
-//     let calorieQuant = (response.hits[0].recipe.totalNutrients.ENERC_KCAL.quantity).toFixed(0);
-//     recipeCardBody.append($('<div>', { id: 'recipe0calories', text: 'Total calories: ' + calorieQuant + ' ' + calorieUnit }));
-//     //calories per serving
-//     let caloriePerserving = (calorieQuant / recipeYield).toFixed(0);
-//     recipeCardBody.append($('<div>', { id: 'recipe0caloriesServing', text: 'Calories per serving: ' + caloriePerserving + ' ' + calorieUnit }));
-
-
-// START SPOONACULAR CALL ---------------------------------------------
-// hector's api for spooacular 
-// const keySpoonHector = "40e409872bc049d28deda10508960781";
-// const ingredientName = "flour";
-// const sourceAmount = "2";
-// const sourceUnit = "cups";
-// const targetUnit = "grams";
-// const spoonCallURL = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredientName}&sourceAmount=${sourceAmount}&sourceUnit=${sourceUnit}&targetUnit=${targetUnit}&apiKey=${keySpoonHector}`
-
-// AJAX call to unit conversion path
-// $.ajax({
-//     url: spoonCallURL,
-//     method: "GET"
-// }).then(function (response) {
-//     console.log(response);
-
-
-// });
-
 function convertUnit(ingredient, amount, initialUnit, targetUnit) {
     var API_KEY = 'd3a8582988694e8780200641aad4694b' 
     var urlConvertUnit = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredient}&sourceAmount=${amount}&sourceUnit=${initialUnit}&targetUnit=${targetUnit}&apiKey=${API_KEY}`;
 
-    const settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": `https://cors-anywhere.herokuapp.com/` + urlConvertUnit,
-        "method": "GET" ,
-        "headers": {
-            "x-rapidapi-key": API_KEY,
-            "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
-        }
+    var settings = {
+
+        url:  urlConvertUnit,
+        method: "GET" 
     };
   
         $.ajax(settings).then(function (response){
-            console.log("Converted Unit: " + response);
+            console.log(response);
         })
 }
-
-// END SPOONACULAR CALL ---------------------------------------------
 
 function displayThumbnailViews (){
     // for (i=searchResultsSet*6; i<searchResultsSet*6+6; i++){
@@ -258,7 +198,7 @@ function displayThumbnailViews (){
     }
 }
         
-displayThumbnailViews ();
+// displayThumbnailViews ();
 
 function displayRecipe(){
  
@@ -306,6 +246,14 @@ $(".thumbnail").on("click", function () {
     displayRecipe ();
 })
 
+$(".thumbnail").on("click", function () {
+    currentRecipeIndex = $(this).attr("data-arrIndex");
+    currentRecipe = currentRecipesArr[currentRecipeIndex];
+    console.log(currentRecipe);
+    console.log($(this).attr("data-arrIndex"));
+    displayRecipe ();
+})
+
 function pushSavedLocalStorage(){
     localStorage.setItem("savedRecipes", JSON.stringify(currentRecipesArr));
 }
@@ -324,3 +272,33 @@ function pullCurrentLocalStorage (){
 var tempLocal = pullCurrentLocalStorage();
 console.log(tempLocal);
 
+
+
+// Omar APP ID "bb9ad742";
+// Maria APP ID "588c938a";
+// Dory APP ID "d646e635"
+// Omar App KEY "f1f0e0febcb485de149281ede51c6ffd"
+// Maria APP Key "52561e55f1ad9a36b20b7445df72154b";
+// Dory APP KEY "549406eaebcc7c23fdc7927fa1ea196c"
+//Maria's app ID, & app key for spanish endpoint
+// const APP_ID = "bb9ad742";
+// const APP_KEY = "f1f0e0febcb485de149281ede51c6ffd";
+
+// START SPOONACULAR CALL ---------------------------------------------
+// hector's api for spooacular 
+// const keySpoonHector = "40e409872bc049d28deda10508960781";
+// const ingredientName = "flour";
+// const sourceAmount = "2";
+// const sourceUnit = "cups";
+// const targetUnit = "grams";
+// const spoonCallURL = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredientName}&sourceAmount=${sourceAmount}&sourceUnit=${sourceUnit}&targetUnit=${targetUnit}&apiKey=${keySpoonHector}`
+
+// AJAX call to unit conversion path
+// $.ajax({
+//     url: spoonCallURL,
+//     method: "GET"
+// }).then(function (response) {
+//     console.log(response);
+// });
+
+// var currentRecipesArr = [{recipeName: "Baked Beans", recipeUrl: "https//test", recipeImgSrc: "https://www.edamam.com/web-img/926/926993720edade9fea50fb91084039e0.jpg", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "More Beans", recipeImgSrc: "https://www.edamam.com/web-img/66f/66f7346e672cd0b1689cf918847cb481.jpg", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"cups",500], ["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}];
