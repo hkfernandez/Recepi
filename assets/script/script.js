@@ -47,18 +47,18 @@ $("#mainContainer").append($("<section>")
 // displayPane
 $("#mainContainer").append($("<section>")
     .attr("id", "displayPane")
-    // .attr("uk-grid", "")
-    // .attr("class", "uk-child-width-1-2@s uk-child-width-1-3@m uk-text-center")
+    .attr("uk-grid", "")
+    .attr("class", "uk-grid-large uk-grid-row-large")
 )
 // searchPane
 $("#secondContainer").append($("<nav>")
     .attr("id", "searchPane")
-    .text("searchPane")
-)
-// recentsPane
-$("#secondContainer").append($("<nav>")
+    .attr("class", "uk-text-center")
+    )
+    // recentsPane
+    $("#secondContainer").append($("<nav>")
     .attr("id", "recentsPane")
-    .text("recentsPane")
+    .attr("class", "uk-text-center")
 )
 // search bar
 $("#searchPane").append($("<form>")
@@ -384,37 +384,30 @@ function displayThumbnailViews (){
     for (i=0; i < currentRecipesArr.length ; i++){
         $("#displayPane").append($("<div>")  
             .attr("data-arrIndex", i)
-            .attr("class", "thumbnail")
+            .attr("class", "thumbnail uk-card uk-card-default uk-card-body uk-width-1-1@s uk-width-1-2@m uk-width-1-3@lg uk-height-small")
+            .attr("id", `card${i}`)
             .append($("<div>")
-                .attr("id", `card${i}`)
-
-                .append($("<div>"))
-                    .append($("<img>")
-                        .attr("src", currentRecipesArr[i].recipeImgSrc)
-                        .attr("alt", "Recipe Image")))
-
-                .attr("class", "uk-card uk-card-default uk-card-body")
-                .append($("<div>")
-                    .attr("class","uk-card-media-top")
-                    .append($("<img>")
-                        .attr("src", currentRecipesArr[i].recipeImgSrc)
-                        .attr("alt", "Recipe Image")))))
-
-                $(`#card${i}`).append($("<div>")
-                    .attr("class", "uk-card-body")
-                    .append($("<h3>")
-                        .text(currentRecipesArr[i].recipeName)))                
+                .attr("class", "uk-card-media-top")
+                .append($("<img>")
+                    .attr("alt", "Recipe Image")
+                    .attr("class", "thumbnail")
+                    .attr("src", currentRecipesArr[i].recipeImgSrc))))
+            $(`#card${i}`).append($("<div>")
+                .attr("class", "uk-card-body uk-text-center")
+                .append($("<h5>")
+                    .attr("class", "uk-card-title")
+                    .text(currentRecipesArr[i].recipeName)))   
     }
 }
-{/* <div class="uk-card uk-card-default">
-    <div class="uk-card-media-top">
-        <img src="images/light.jpg" alt="">
-    </div>
-    <div class="uk-card-body">
-        <h3 class="uk-card-title">Media Top</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-    </div>
-</div> */}
+        // <div class="uk-card uk-card-default">
+        //     <div class="uk-card-media-top">
+        //         <img src="images/light.jpg" alt="">
+        //     </div>
+        //     <div class="uk-card-body">
+        //         <h3 class="uk-card-title">Media Top</h3>
+        //     </div>
+        // </div>
+        
 displayThumbnailViews ();
 
 function displayRecipe(){
@@ -431,9 +424,10 @@ function displayRecipe(){
     var ingredientsArr = currentRecipesArr[currentRecipeIndex].ingredients
     
 
-    recipeCard.append($('<div>', { id: 'recipeName', text: name, class: 'uk-text-center uk-text-uppercase uk-card-title' }));
+    recipeCard.append($('<div>', { id: 'recipeName', text: name, class: ' uk-text-uppercase uk-card-title' }));
     recipeCardBody.append($('<img>', { id: 'recipeImg', src: image}));
-    recipeCardBody.append($('<a>', { id: 'recipeUrl', text: 'Recipe URL', target: '_blank', class: 'ui-button ui-corner-all', href: recipeUrl }));
+    recipeCardBody.append($('<div>', { id: 'imgDiv'}));
+    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'Recipe URL', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
     recipeCard.append($('<div>', { id: 'ingredientsContainer', class: '' }));
     
     for (i = 0; i < currentRecipesArr[currentRecipeIndex].ingredients.length; i++) {
