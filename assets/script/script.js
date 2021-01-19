@@ -285,10 +285,13 @@ function pushSavedLocalStorage(){
     localStorage.setItem("savedRecipes", JSON.stringify(currentRecipesArr));
 }
 
+
 function pullSavedLocalStorage(){
    return currentRecipesArr = JSON.parse(localStorage.getItem("savedRecipes"));
 }
-    
+var tempLocalStorage = pullSavedLocalStorage ();
+console.log(tempLocalStorage);
+
 function pushCurrentLocalStorage(){
     localStorage.setItem("currentRecipe", JSON.stringify(currentRecipe));
 }
