@@ -406,11 +406,11 @@ function displayThumbnailViews (){
         //                 .text(currentRecipesArr[i].recipeName)))
         $("#displayPane").append($("<div>"))
             .append($("<div>")
-                .attr("id", `card${i}`))
+                .attr("id", `card${i}`)
                 .append($("<div>"))
                     .append($("<img>")
                         .attr("src", currentRecipesArr[i].recipeImgSrc)
-                        .attr("alt", "Recipe Image"))
+                        .attr("alt", "Recipe Image")))
                 $(`#card${i}`).append($("<div>")
                     .append($("<h3>")
                         .text(currentRecipesArr[i].recipeName)))
@@ -442,3 +442,21 @@ displayThumbnailViews ();
 // }).then(function(response){
 //     console.log(response);
 // });
+
+function pushSavedLocalStorage(){
+    localStorage.setItem("savedRecipes", JSON.stringify(currentRecipesArr));
+}
+
+function pullSavedLocalStorage(){
+   return currentRecipesArr = JSON.parse(localStorage.getItem("savedRecipes"));
+}
+    
+function pushCurrentLocalStorage(){
+    localStorage.setItem("currentRecipe", JSON.stringify(currentRecipe));
+}
+
+function pullCurrentLocalStorage (){
+    return currentRecipe = JSON.parse(localStorage.getItem("currentRecipe"));
+
+}
+
