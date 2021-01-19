@@ -1,33 +1,3 @@
-/* 
-searchPane - search bar
-savedPane - list of saved recipes
-detailsPane - shows search results and recipe details
-
-Search for recipes
-Toggle search between English and Spanish
-search validation
-Search returns 5 recipes 5 recipes shown in display pane w/ titles and picture and a name
-might be nice to display stars as well
-option to see more recipes
-select recipe and see details in detailsPane including larger photo, title, ingredients, ability to convert measurements, ability to save, ability to go back to 5 returned results
-Convert ingredient units when viewing recipe details
-select ingredients to convert by selecting measurements to convert to from dropdown beside each ingredient
-click button to show conversion values in addition to original values
-recipe is automatically saved after unit conversion
-converted units can be deleted at any time
-
-Recall saved recipes
-click on recipe shown in savedPanebutton in saved pane 
-button? to show all recipes by alpha
-recipes display similar to search results
-select a recipe
-display is similar to showing recipe details in Convert measurements etc
-Button to remove saved recipe from local storageSave found recipes
-
-What happens when you click on save?error check to prevent duplicatessaved to local storageupdate recentsAdd notes by user?
-*/
-
-//https://api.spoonacular.com/recipes/findByIngredients?ranking=1&ingredients=eggs
 
 // START GLOBAL VARIABLES ---------------------------------------------------
 // 
