@@ -56,7 +56,7 @@ $("#mainContainer").append($("<section>")
 $("#mainContainer").append($("<section>")
     .attr("id", "displayPane")
     .attr("uk-grid", "")
-    .attr("class", "uk-grid-large uk-height-viewport uk-panel uk-panel-scrollable")
+    .attr("class", "uk-grid-small")
 )
 // searchPane
 $("#secondContainer").append($("<nav>")
