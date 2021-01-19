@@ -424,8 +424,8 @@ console.log('is working');
 // });
 
 function convertUnit(ingredient, amount, initialUnit, targetUnit) {
-    var urlConvertUnit = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredient}&sourceAmount=${amount}&sourceUnit=${initialUnit}&targetUnit=${targetUnit}`;
     var API_KEY = 'd3a8582988694e8780200641aad4694b' 
+    var urlConvertUnit = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredient}&sourceAmount=${amount}&sourceUnit=${initialUnit}&targetUnit=${targetUnit}&apiKey=${API_KEY}`;
     // (Spoonacular Keys)
     
 
