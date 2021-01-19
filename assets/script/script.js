@@ -434,8 +434,8 @@ function convertUnit(ingredient, amount, initialUnit, targetUnit) {
     const settings = {
         "async": true,
         "crossDomain": true,
-        "url": `https://cors-anywhere.herokuapp.com/`+urlConvertUnit,
-        "method": "GET",
+        "url": `https://cors-anywhere.herokuapp.com/` + urlConvertUnit,
+        "method": "GET" ,
         "headers": {
             "x-rapidapi-key": API_KEY,
             "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"

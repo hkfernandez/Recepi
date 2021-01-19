@@ -3,6 +3,7 @@ html {
 }
 body {
     height: 100%;
+    /* background-image: url(./Recipe.jpg) */
 }
 #mainContainer {
     display: flex;
