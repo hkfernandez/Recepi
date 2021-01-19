@@ -216,16 +216,16 @@ function displayThumbnailViews (){
     // for (i=searchResultsSet*6; i<searchResultsSet*6+6; i++){
     for (i=0; i < currentRecipesArr.length ; i++){
         $("#displayPane").append($("<div>")
-            .append ($("<div>")  
-                .attr("data-arrIndex", i)
-                .attr("data-arrIndex", i)
+        .attr("class", "thumbnail")
+        .attr("data-arrIndex", i)
+        .append ($("<div>")  
                 .attr("class", "uk-card uk-card-default uk-width-1-1@s uk-width-1-2@m uk-width-1-3@lg")
                 .attr("id", `card${i}`)
                 .append($("<div>")
                     .attr("class", "uk-card-media-top")
                     .append($("<img>")
                         .attr("alt", "Recipe Image")
-                        .attr("class", "thumbnail uk-align-center")
+                        .attr("class", "thumbnailImage uk-align-center")
                         .attr("src", currentRecipesArr[i].recipeImgSrc)))))
                 $(`#card${i}`).append($("<div>")
                     .attr("class", "uk-text-center uk-text-top")
@@ -249,7 +249,6 @@ function displayRecipe(){
     var image = currentRecipesArr[currentRecipeIndex].recipeImgSrc;
     var recipeUrl = currentRecipesArr[currentRecipeIndex].recipeURL;
     var ingredientsArr = currentRecipesArr[currentRecipeIndex].ingredients
-    
 
     recipeCard.append($('<div>', { id: 'recipeName', text: name, class: ' uk-text-uppercase uk-card-title' }));
     recipeCardBody.append($('<img>', { id: 'recipeImg', src: image}));
@@ -273,10 +272,13 @@ function displayRecipe(){
                             .attr("class", "grams")
                             .text(`${ingredientsArr[i][3]} grams`))))
     }
+    pushCurrentLocalStorage();
 }
 
 $(".thumbnail").on("click", function () {
     currentRecipeIndex = $(this).attr("data-arrIndex");
+    currentRecipe = currentRecipesArr[currentRecipeIndex];
+    console.log(currentRecipe);
     console.log($(this).attr("data-arrIndex"));
     displayRecipe ();
 })
@@ -288,14 +290,14 @@ function pushSavedLocalStorage(){
 function pullSavedLocalStorage(){
    return currentRecipesArr = JSON.parse(localStorage.getItem("savedRecipes"));
 }
-    
+
 function pushCurrentLocalStorage(){
     localStorage.setItem("currentRecipe", JSON.stringify(currentRecipe));
 }
 
 function pullCurrentLocalStorage (){
     return currentRecipe = JSON.parse(localStorage.getItem("currentRecipe"));
-
 }
-
+var tempLocal = pullCurrentLocalStorage();
+console.log(tempLocal);
 
