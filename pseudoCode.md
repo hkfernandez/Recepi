@@ -28,16 +28,15 @@ Basic Idea
     - not until the user chooses to save the recipe to their personal collection is it added to the recipeArray in local storage
 
 on load
-#    function - build savedRecipesList
+#    function - postSavedRecipes
 #        function - pullSavedLocalStorage
             pulls saved recipes from local storage
-#        function - postSavedRecipes
-            if savedRecipes = null
-                post message saying "you have no saved recipes
-                and that you will see any recipes you have saved here"
-            else
-                build a list of recipe titles from from recipes arr wtih index position
-#        function - postCurrentRecipe?
+        if savedRecipes = null
+            post message saying "you have no saved recipes
+            and that you will see any recipes you have saved here"
+        else
+            build a list of recipe titles from from recipes arr wtih index position
+#        function - displayCurrentRecipe
             if currentRecipe === null
             post welcome message
             else - 
@@ -77,7 +76,7 @@ Search for recipes click event when click submit or hit enter
                         -must capture index position of recipe in recipesArr
                 user wants to see more results by clicking on arrow or similar
                     on click event
-#                        function - seeNextRecipeSet
+#                        function - navigateRecipeSet
                             if searchResultsSet = 3 
                                 the user need to start a new search or go back
                             if this #direction === forward
@@ -91,7 +90,7 @@ on click event - select recipe and see details in detailsPane including larger p
         set recipe to currentRecipe global variable
         set global currentRecipeIndex based on currentRecipesArr
         displayRecipe ()
-#   function - saveCurrentRecipe
+#   function - pushCurrentRecipeLocalStorage()
         -save selected recipe to localStorage with key currentRecipe
         note: 
             -this is not saving the current recipe in the savedrecipesArr
@@ -114,18 +113,15 @@ Convert ingredient units when viewing recipe details
         capture id of ingredient div
             set it to a global? currentIngredientId variable so you can find it again to post the new value?
         capture the results of the measurement conversion funtion and pass them to the postConvertedUnits function
-#        function - postConvertedUnits
-            pass varibles for newUnits and new amounts to this function
-            select ingredient with global currentIngredientId
-            append new values to exisiting ingredient div with a new div with a convertedAmount class and a new div with a .convertedUnits class
-            add a hidden button that will show on hover to delete new conversion data
-            saveCurrentRecipe ()
-        on hover event - delete new conversion data
-#           function - deleteConversion
-                when hovering beside the newly posted ingredient amounts show a button to delete
-                on click event
-                    when delete button is clicked delete divs containing converted amount and converted unit
+        append new values to exisiting ingredient div with a new div with a convertedAmount class and a new div with a .convertedUnits class
+        add a hidden button that will show on hover to delete new conversion data
         saveCurrentRecipe ()
+    on hover event - delete new conversion data
+#           function - deleteConversion
+            when hovering beside the newly posted ingredient amounts show a button to delete
+            on click event
+                when delete button is clicked delete divs containing converted amount and converted unit
+    saveCurrentRecipe ()
 # recallSavedRecipes
     on click event - click on savedRecipes button
         pullSavedLocalStorage ()
