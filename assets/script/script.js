@@ -140,6 +140,44 @@ function webSearch(searchValue) {
 } 
 
 
+// function setArrayToCurrentArr(arr) {
+
+//     currentRecipesArr = ""
+
+//     for (let i = 0; index < arr.length; i++) {
+//         var name = arr[i].recipe.label;
+//         var url = arr[i].recipe.url;
+//         var img = arr[i].recipe.image;
+        
+//             function setIngredientsToCurrentArr(ingArr) {
+
+//                 currentIngredientsArr = ""
+                
+//                 for (let i = 0; index < ingArr.length; i++)
+//                     var ingN = ingArr[i].recipe.ingredients[0].food;
+//                     //How should we add number of ingredients in a recipe to the index that will add ingredient name
+
+//                     var ingM = arr[i].recipe.ingredients[0].measure;
+//                     var ingQ = arr[i].recipe.ingredients[0].quantity;
+//                     var ingG = arr[i].recipe.ingredients[0].weight;
+//             }
+            
+            
+//             var recipe = {  recipeName : name, 
+//                             recipeUrl : url, d
+//                             recipeImgSrc : img, 
+//                             ingName : ingN, 
+//                             ingMeasure : ingM, 
+//                             ingQuant : ingQ, 
+//                             ingGrams : ingG 
+//                         }
+
+//         currentRecipesArr.push(recipe);
+//     }
+
+// }
+
+
 
     // let recipeName = response.hits[0].recipe.label;
     // let recipeImgSrc = response.hits[0].recipe.image;
