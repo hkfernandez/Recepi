@@ -387,12 +387,19 @@ function displayThumbnailViews (){
             .attr("class", "thumbnail")
             .append($("<div>")
                 .attr("id", `card${i}`)
+
+                .append($("<div>"))
+                    .append($("<img>")
+                        .attr("src", currentRecipesArr[i].recipeImgSrc)
+                        .attr("alt", "Recipe Image")))
+
                 .attr("class", "uk-card uk-card-default uk-card-body")
                 .append($("<div>")
                     .attr("class","uk-card-media-top")
                     .append($("<img>")
                         .attr("src", currentRecipesArr[i].recipeImgSrc)
                         .attr("alt", "Recipe Image")))))
+
                 $(`#card${i}`).append($("<div>")
                     .attr("class", "uk-card-body")
                     .append($("<h3>")
@@ -459,3 +466,30 @@ $(".thumbnail").on("click", function () {
 // const URl =`https://api.edamam.com/search?q=chicken&app_id=${APP_KEY}&app_key=${API_ID}`;
 
 // console.log(URL);
+
+
+// $.ajax({
+// url: URl,
+// method: "GET" 
+// }).then(function(response){
+//     console.log(response);
+// });
+
+function pushSavedLocalStorage(){
+    localStorage.setItem("savedRecipes", JSON.stringify(currentRecipesArr));
+}
+
+function pullSavedLocalStorage(){
+   return currentRecipesArr = JSON.parse(localStorage.getItem("savedRecipes"));
+}
+    
+function pushCurrentLocalStorage(){
+    localStorage.setItem("currentRecipe", JSON.stringify(currentRecipe));
+}
+
+function pullCurrentLocalStorage (){
+    return currentRecipe = JSON.parse(localStorage.getItem("currentRecipe"));
+
+}
+
+
