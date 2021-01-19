@@ -104,23 +104,23 @@ $("#searchBtn").on("click", function(event) {
 
 
 
-function englishSearch(searchValue) {
+// function englishSearch(searchValue) {
     
-    var urlEnglish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+//     var urlEnglish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
 
-        $.ajax({
-            url: urlEnglish,
-            method: "GET"
-        }).then(function (response){
-            console.log(response);
+//         $.ajax({
+//             url: urlEnglish,
+//             method: "GET"
+//         }).then(function (response){
+//             console.log(response);
 
-            var sampleIngredient = response.hits[0].recipe.ingredients[0];
+//             var sampleIngredient = response.hits[0].recipe.ingredients[0];
 
-            console.log('Sample Ingredient: ' + sampleIngredient)
-            // test unit convert function
-            convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'teaspoon');
-        })
-}
+//             console.log('Sample Ingredient: ' + sampleIngredient)
+//             // test unit convert function
+//             convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'teaspoon');
+//         })
+// }
 
 function webSearch(searchValue) {
 
@@ -135,6 +135,11 @@ function webSearch(searchValue) {
         method: "GET"
     }).then(function (response){
         console.log(response);
+        var sampleIngredient = response.hits[0].recipe.ingredients[0];
+
+        console.log(sampleIngredient)
+        // test unit convert function
+        convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'Tablespoon');
     })
       
 } 
@@ -196,19 +201,20 @@ function convertUnit(ingredient, amount, initialUnit, targetUnit) {
 
     // var API_KEY2 = 'eedc150ed7msh5507510bf70abc4p19b8a9jsn8b034ed95169'
 
-    const settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": `https://cors-anywhere.herokuapp.com/` + urlConvertUnit,
-        "method": "GET" ,
-        "headers": {
-            "x-rapidapi-key": API_KEY,
-            "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
-        }
+    var settings = {
+        // "async": true,
+        // "crossDomain": true,
+        // https://cors-anywhere.herokuapp.com/
+        url:  urlConvertUnit,
+        method: "GET" 
+        // "headers": {
+        //     "x-rapidapi-key": API_KEY,
+        //     "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+        // }
     };
   
         $.ajax(settings).then(function (response){
-            console.log("Converted Unit: " + response);
+            console.log(response);
         })
 }
 
@@ -300,6 +306,7 @@ function pushCurrentLocalStorage(){
 function pullCurrentLocalStorage (){
     return currentRecipe = JSON.parse(localStorage.getItem("currentRecipe"));
 }
-var tempLocal = pullCurrentLocalStorage();
-console.log(tempLocal);
+// var tempLocal = pullCurrentLocalStorage();
+// console.log(tempLocal);
+
 
