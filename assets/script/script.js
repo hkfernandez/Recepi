@@ -104,23 +104,23 @@ $("#searchBtn").on("click", function(event) {
 
 
 
-function englishSearch(searchValue) {
+// function englishSearch(searchValue) {
     
-    var urlEnglish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+//     var urlEnglish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
 
-        $.ajax({
-            url: urlEnglish,
-            method: "GET"
-        }).then(function (response){
-            console.log(response);
+//         $.ajax({
+//             url: urlEnglish,
+//             method: "GET"
+//         }).then(function (response){
+//             console.log(response);
 
-            var sampleIngredient = response.hits[0].recipe.ingredients[0];
+//             var sampleIngredient = response.hits[0].recipe.ingredients[0];
 
-            console.log('Sample Ingredient: ' + sampleIngredient)
-            // test unit convert function
-            convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'teaspoon');
-        })
-}
+//             console.log('Sample Ingredient: ' + sampleIngredient)
+//             // test unit convert function
+//             convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'teaspoon');
+//         })
+// }
 
 function webSearch(searchValue) {
 
@@ -135,10 +135,15 @@ function webSearch(searchValue) {
         method: "GET"
     }).then(function (response){
         console.log(response);
+      
+        var sampleIngredient = response.hits[0].recipe.ingredients[0];
+
+        console.log(sampleIngredient)
+        // test unit convert function
+        convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'Tablespoon');
     })
       
 } 
-
 
 
     // let recipeName = response.hits[0].recipe.label;
@@ -148,6 +153,14 @@ function webSearch(searchValue) {
     // let ingQuant = response.hits[0].recipe.ingredients[0].quantity;
     // let ingGrams = response.hits[0].recipe.ingredients[0].weight;
 
+
+
+    // let recipeName = response.hits[0].recipe.label;
+    // let recipeImgSrc = response.hits[0].recipe.image;
+    // let ingName = response.hits[0].recipe.ingredients[0].food;
+    // let ingMeasure = response.hits[0].recipe.ingredients[0].measure;
+    // let ingQuant = response.hits[0].recipe.ingredients[0].quantity;
+    // let ingGrams = response.hits[0].recipe.ingredients[0].weight;
 
 // Omar APP ID "bb9ad742";
 // Maria APP ID "588c938a";
@@ -196,19 +209,20 @@ function convertUnit(ingredient, amount, initialUnit, targetUnit) {
 
     // var API_KEY2 = 'eedc150ed7msh5507510bf70abc4p19b8a9jsn8b034ed95169'
 
-    const settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": `https://cors-anywhere.herokuapp.com/` + urlConvertUnit,
-        "method": "GET" ,
-        "headers": {
-            "x-rapidapi-key": API_KEY,
-            "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
-        }
+    var settings = {
+        // "async": true,
+        // "crossDomain": true,
+        // https://cors-anywhere.herokuapp.com/
+        url:  urlConvertUnit,
+        method: "GET" 
+        // "headers": {
+        //     "x-rapidapi-key": API_KEY,
+        //     "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+        // }
     };
   
         $.ajax(settings).then(function (response){
-            console.log("Converted Unit: " + response);
+            console.log(response);
         })
 }
 
@@ -246,6 +260,63 @@ function displayRecipe(){
     let recipeCard = $('<div>').attr('class', 'uk-card uk-card-hover');
     $('#displayPane').append(recipeCard);
     recipeCardBody = recipeCard.append($('<div>', {id:'card0body', class: 'uk-card-body',}));
+
+
+    var name = currentRecipesArr[currentRecipeIndex].recipeName;
+    var image = currentRecipesArr[currentRecipeIndex].recipeImgSrc;
+    var recipeUrl = currentRecipesArr[currentRecipeIndex].recipeURL;
+    var ingredientsArr = currentRecipesArr[currentRecipeIndex].ingredients
+
+    recipeCard.append($('<div>', { id: 'recipeName', text: name, class: ' uk-text-uppercase uk-card-title' }));
+    recipeCardBody.append($('<img>', { id: 'recipeImg', src: image}));
+    recipeCardBody.append($('<div>', { id: 'imgDiv'}));
+    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'Recipe URL', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
+    recipeCard.append($('<div>', { id: 'ingredientsContainer', class: '' }));
+    
+    for (i = 0; i < currentRecipesArr[currentRecipeIndex].ingredients.length; i++) {
+        $("#ingredientsContainer").append($("<div>")
+            .attr("data-index", i)
+            .append($("<span>")
+                .attr("class", "ingredient")
+                .text(`${ingredientsArr[i][0]} `))
+                .append($("<span>")
+                    .attr("class", "qty")
+                    .text(`${ingredientsArr[i][2]} `)
+                    .append($("<span>")
+                        .attr("class", "measure")
+                        .text(`${ingredientsArr[i][1]} - `))
+                        .append($("<span>")
+                            .attr("class", "grams")
+                            .text(`${ingredientsArr[i][3]} grams`))))
+    }
+    pushCurrentLocalStorage();
+}
+
+$(".thumbnail").on("click", function () {
+    currentRecipeIndex = $(this).attr("data-arrIndex");
+    currentRecipe = currentRecipesArr[currentRecipeIndex];
+    console.log(currentRecipe);
+    console.log($(this).attr("data-arrIndex"));
+    displayRecipe ();
+})
+
+function pushSavedLocalStorage(){
+    localStorage.setItem("savedRecipes", JSON.stringify(currentRecipesArr));
+}
+
+function pullSavedLocalStorage(){
+   return currentRecipesArr = JSON.parse(localStorage.getItem("savedRecipes"));
+}
+
+function pushCurrentLocalStorage(){
+    localStorage.setItem("currentRecipe", JSON.stringify(currentRecipe));
+}
+
+function pullCurrentLocalStorage (){
+    return currentRecipe = JSON.parse(localStorage.getItem("currentRecipe"));
+}
+// var tempLocal = pullCurrentLocalStorage();
+// console.log(tempLocal);
 
     var name = currentRecipesArr[currentRecipeIndex].recipeName;
     var image = currentRecipesArr[currentRecipeIndex].recipeImgSrc;
@@ -302,4 +373,5 @@ function pullCurrentLocalStorage (){
 }
 var tempLocal = pullCurrentLocalStorage();
 console.log(tempLocal);
+
 
