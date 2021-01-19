@@ -31,9 +31,9 @@ What happens when you click on save?error check to prevent duplicatessaved to lo
 
 // START GLOBAL VARIABLES ---------------------------------------------------
 // 
-var currentRecipesArr = [{recipeName: "Baked Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]}, {recipeName: "More Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ing1: ["beans",4,"",500], ing2: ["sugar",1,"","100"]}];
+var currentRecipesArr = [{recipeName: "Baked Beans", recipeUrl: "https//test", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "More Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"cups",500], ["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}];
 var currentRecipe;
-var currentRecipeIndex;
+var currentRecipeIndex = 0;
 var currentRecipeState;
 var toggleEnglishSpanish = "english";
 var searchResultsSet;
@@ -78,18 +78,18 @@ $("#mainContainer").append($("<section>")
 // displayPane
 $("#mainContainer").append($("<section>")
     .attr("id", "displayPane")
-    // .attr("uk-grid", "")
-    // .attr("class", "uk-child-width-1-2@s uk-child-width-1-3@m uk-text-center")
+    .attr("uk-grid", "")
+    .attr("class", "uk-grid-large uk-grid-row-large")
 )
 // searchPane
 $("#secondContainer").append($("<nav>")
     .attr("id", "searchPane")
-    .text("searchPane")
-)
-// recentsPane
-$("#secondContainer").append($("<nav>")
+    .attr("class", "uk-text-center")
+    )
+    // recentsPane
+    $("#secondContainer").append($("<nav>")
     .attr("id", "recentsPane")
-    .text("recentsPane")
+    .attr("class", "uk-text-center")
 )
 // search bar
 $("#searchPane").append($("<form>")
@@ -144,31 +144,18 @@ $("#toggleLanguage").on("click", function() {
     }
 });        
 
-$("#searchBtn").on("click", function() {
-    if (toggleEnglishSpanish === "english") {
-        
-        var userInput = $("#searchBar").val();
-        englishSearch(userInput);
+$("#searchBtn").on("click", function(event) {
+    event.preventDefault();
+    var userInput = $("#searchBar").val();
+    if (userInput == null) {
+        return
     } else {
-        var userInput = $("#searchBar").val();
-        spanishSearch(userInput);
-    
+        webSearch(userInput);
     }
-
     $("#searchBar").val("");
+});
 
-})
-function spanishSearch(searchValue) {
-    
-    var urlSpanish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
 
-        $.ajax({
-            url: urlSpanish,
-            method: "GET"
-        }).then(function (response){
-            console.log(response);
-        })
-}
 
 function englishSearch(searchValue) {
     
@@ -187,6 +174,24 @@ function englishSearch(searchValue) {
             convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'teaspoon');
         })
 }
+
+function webSearch(searchValue) {
+
+    if (toggleEnglishSpanish = "english") {
+        var searchUrl = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+    }else{
+        var searchUrl = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
+    }
+
+    $.ajax({
+        url: searchUrl,
+        method: "GET"
+    }).then(function (response){
+        console.log(response);
+    })
+      
+} 
+
 
 
 //             let recipeName = response.hits[0].recipe.label;
@@ -327,7 +332,7 @@ console.log('is working');
 //     //create card body and append to card
 //     recipeCardBody = recipeCard.append($('<div>', {id:'card0body', class: 'uk-card-body',}));
     
-//     //recipe image
+    //recipe image
 //     let recipeImgSrc = response.hits[0].recipe.image;
     
 //     //for-loop or while loop with counter to get all of the ingredients from ingredients[0]-length of array 
@@ -450,43 +455,77 @@ function convertUnit(ingredient, amount, initialUnit, targetUnit) {
 function displayThumbnailViews (){
     // for (i=searchResultsSet*6; i<searchResultsSet*6+6; i++){
     for (i=0; i < currentRecipesArr.length ; i++){
-        // $("#displayPane").append($("<div>"))
-        //     .append($("<div>")
-        //         .attr("id", `card${i}`)
-        //         .attr("class", "uk-card uk-card-default uk-card-body"))
-        //         .append($("<div>")
-        //             .attr("class","uk-card-media-top"))
-        //             .append($("<img>")
-        //                 .attr("src", currentRecipesArr[i].recipeImgSrc)
-        //                 .attr("alt", "Recipe Image"))
-        //         $(`#card${i}`).append($("<div>")
-        //             .attr("class", "uk-card-body")
-        //             .append($("<h3>")
-        //                 .text(currentRecipesArr[i].recipeName)))
-        $("#displayPane").append($("<div>"))
+        $("#displayPane").append($("<div>")  
+            .attr("data-arrIndex", i)
+            .attr("class", "thumbnail uk-card uk-card-default uk-card-body uk-width-1-1@s uk-width-1-2@m uk-width-1-3@lg uk-height-small")
+            .attr("id", `card${i}`)
             .append($("<div>")
-                .attr("id", `card${i}`))
-                .append($("<div>"))
-                    .append($("<img>")
-                        .attr("src", currentRecipesArr[i].recipeImgSrc)
-                        .attr("alt", "Recipe Image"))
-                $(`#card${i}`).append($("<div>")
-                    .append($("<h3>")
-                        .text(currentRecipesArr[i].recipeName)))
-                
+                .attr("class", "uk-card-media-top")
+                .append($("<img>")
+                    .attr("alt", "Recipe Image")
+                    .attr("class", "thumbnail")
+                    .attr("src", currentRecipesArr[i].recipeImgSrc))))
+            $(`#card${i}`).append($("<div>")
+                .attr("class", "uk-card-body uk-text-center")
+                .append($("<h5>")
+                    .attr("class", "uk-card-title")
+                    .text(currentRecipesArr[i].recipeName)))   
     }
 }
-{/* <div class="uk-card uk-card-default">
-    <div class="uk-card-media-top">
-        <img src="images/light.jpg" alt="">
-    </div>
-    <div class="uk-card-body">
-        <h3 class="uk-card-title">Media Top</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-    </div>
-</div> */}
+        // <div class="uk-card uk-card-default">
+        //     <div class="uk-card-media-top">
+        //         <img src="images/light.jpg" alt="">
+        //     </div>
+        //     <div class="uk-card-body">
+        //         <h3 class="uk-card-title">Media Top</h3>
+        //     </div>
+        // </div>
+        
 displayThumbnailViews ();
 
+function displayRecipe(){
+ 
+    $("#displayPane").empty();
+
+    let recipeCard = $('<div>').attr('class', 'uk-card uk-card-hover');
+    $('#displayPane').append(recipeCard);
+    recipeCardBody = recipeCard.append($('<div>', {id:'card0body', class: 'uk-card-body',}));
+
+    var name = currentRecipesArr[currentRecipeIndex].recipeName;
+    var image = currentRecipesArr[currentRecipeIndex].recipeImgSrc;
+    var recipeUrl = currentRecipesArr[currentRecipeIndex].recipeURL;
+    var ingredientsArr = currentRecipesArr[currentRecipeIndex].ingredients
+    
+
+    recipeCard.append($('<div>', { id: 'recipeName', text: name, class: ' uk-text-uppercase uk-card-title' }));
+    recipeCardBody.append($('<img>', { id: 'recipeImg', src: image}));
+    recipeCardBody.append($('<div>', { id: 'imgDiv'}));
+    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'Recipe URL', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
+    recipeCard.append($('<div>', { id: 'ingredientsContainer', class: '' }));
+    
+    for (i = 0; i < currentRecipesArr[currentRecipeIndex].ingredients.length; i++) {
+        $("#ingredientsContainer").append($("<div>")
+            .attr("data-index", i)
+            .append($("<span>")
+                .attr("class", "ingredient")
+                .text(`${ingredientsArr[i][0]} `))
+                .append($("<span>")
+                    .attr("class", "qty")
+                    .text(`${ingredientsArr[i][2]} `)
+                    .append($("<span>")
+                        .attr("class", "measure")
+                        .text(`${ingredientsArr[i][1]} - `))
+                        .append($("<span>")
+                            .attr("class", "grams")
+                            .text(`${ingredientsArr[i][3]} grams`))))
+    }
+}
+
+$(".thumbnail").on("click", function () {
+    currentRecipeIndex = $(this).attr("data-arrIndex");
+    console.log($(this).attr("data-arrIndex"));
+    displayRecipe ();
+})
 
 // ..... REFERENCE...............
 // <!-- const API_ID = "bb9ad742"
@@ -495,9 +534,29 @@ displayThumbnailViews ();
 
 // console.log(URL);
 
+
 // $.ajax({
 // url: URl,
 // method: "GET" 
 // }).then(function(response){
 //     console.log(response);
 // });
+
+function pushSavedLocalStorage(){
+    localStorage.setItem("savedRecipes", JSON.stringify(currentRecipesArr));
+}
+
+function pullSavedLocalStorage(){
+   return currentRecipesArr = JSON.parse(localStorage.getItem("savedRecipes"));
+}
+    
+function pushCurrentLocalStorage(){
+    localStorage.setItem("currentRecipe", JSON.stringify(currentRecipe));
+}
+
+function pullCurrentLocalStorage (){
+    return currentRecipe = JSON.parse(localStorage.getItem("currentRecipe"));
+
+}
+
+
