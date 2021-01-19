@@ -1,7 +1,7 @@
 
 // START GLOBAL VARIABLES ---------------------------------------------------
 // 
-var currentRecipesArr = [{recipeName: "Baked Beans", recipeUrl: "https//test", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "More Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"cups",500], ["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}];
+var currentRecipesArr = [{recipeName: "Baked Beans", recipeUrl: "https//test", recipeImgSrc: "https://www.edamam.com/web-img/926/926993720edade9fea50fb91084039e0.jpg", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "More Beans", recipeImgSrc: "https://www.edamam.com/web-img/66f/66f7346e672cd0b1689cf918847cb481.jpg", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "Most Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Some Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]},{recipeName: "The Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.34.35 PM.png", ingredients: [["beans",4,"cups",500], ["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}, {recipeName: "Good Beans", recipeImgSrc: "assets/testImages/Screen Shot 2021-01-17 at 10.36.50 PM.png", ingredients: [["beans","cups",4,500], ["sugar","tablespoons",1,"100"]]}];
 var currentRecipe;
 var currentRecipeIndex = 0;
 var currentRecipeState;
@@ -26,7 +26,7 @@ $("#mainContainer").append($("<section>")
 $("#mainContainer").append($("<section>")
     .attr("id", "displayPane")
     .attr("uk-grid", "")
-    .attr("class", "uk-grid-large uk-grid-row-large")
+    .attr("class", "uk-grid-small")
 )
 // searchPane
 $("#secondContainer").append($("<nav>")
@@ -102,8 +102,6 @@ $("#searchBtn").on("click", function(event) {
     $("#searchBar").val("");
 });
 
-
-
 function englishSearch(searchValue) {
     
     var urlEnglish = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
@@ -135,56 +133,45 @@ function webSearch(searchValue) {
         method: "GET"
     }).then(function (response){
         console.log(response);
-    })
-      
+        var returnedRecipesArr = response.hits
+        setArrayToCurrentRecipesArr(returnedRecipesArr)
+        currentRecipeState = "unsaved"
+        console.log(currentRecipesArr)
+    })  
 } 
 
+function setArrayToCurrentRecipesArr(arr) {
 
-// function setArrayToCurrentArr(arr) {
+    currentRecipesArr = []
 
-//     currentRecipesArr = ""
+    for (let i = 0; i < arr.length; i++) {
+        // var ingArr = arr[i].recipe.ingredients;
+        var name = arr[i].recipe.label;
+        var url = arr[i].recipe.url;
+        var img = arr[i].recipe.image; 
+        var searchIngredientArr = arr[i].recipe.ingredients
+        var ingredientsArr = [];
+                          
+        for (let index = 0; index < searchIngredientArr.length; index++) {
+            var ingN = arr[i].recipe.ingredients[index].food;
+            var ingM = arr[i].recipe.ingredients[index].measure;
+            var ingQ = arr[i].recipe.ingredients[index].quantity;
+            var ingT = arr[i].recipe.ingredients[index].text;
+            var ingG = arr[i].recipe.ingredients[index].weight;
+            var ingredientDetailsArr = [ingT, ingN, ingQ, ingM, ingG];
+            ingredientsArr.push(ingredientDetailsArr);
+        } 
+                        
+        var recipe = {  
+            recipeName : name, 
+            recipeUrl : url, 
+            recipeImgSrc : img,
+            recipeIngredients : ingredientsArr
+        }
 
-//     for (let i = 0; index < arr.length; i++) {
-//         var name = arr[i].recipe.label;
-//         var url = arr[i].recipe.url;
-//         var img = arr[i].recipe.image;
-        
-//             function setIngredientsToCurrentArr(ingArr) {
-
-//                 currentIngredientsArr = ""
-                
-//                 for (let i = 0; index < ingArr.length; i++)
-//                     var ingN = ingArr[i].recipe.ingredients[0].food;
-//                     //How should we add number of ingredients in a recipe to the index that will add ingredient name
-
-//                     var ingM = arr[i].recipe.ingredients[0].measure;
-//                     var ingQ = arr[i].recipe.ingredients[0].quantity;
-//                     var ingG = arr[i].recipe.ingredients[0].weight;
-//             }
-            
-            
-//             var recipe = {  recipeName : name, 
-//                             recipeUrl : url, d
-//                             recipeImgSrc : img, 
-//                             ingName : ingN, 
-//                             ingMeasure : ingM, 
-//                             ingQuant : ingQ, 
-//                             ingGrams : ingG 
-//                         }
-
-//         currentRecipesArr.push(recipe);
-//     }
-
-// }
-
-
-
-    // let recipeName = response.hits[0].recipe.label;
-    // let recipeImgSrc = response.hits[0].recipe.image;
-    // let ingName = response.hits[0].recipe.ingredients[0].food;
-    // let ingMeasure = response.hits[0].recipe.ingredients[0].measure;
-    // let ingQuant = response.hits[0].recipe.ingredients[0].quantity;
-    // let ingGrams = response.hits[0].recipe.ingredients[0].weight;
+        currentRecipesArr.push(recipe);
+    }  
+};
 
 
 // Omar APP ID "bb9ad742";
@@ -227,16 +214,14 @@ function webSearch(searchValue) {
 // });
 
 function convertUnit(ingredient, amount, initialUnit, targetUnit) {
-    var urlConvertUnit = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredient}&sourceAmount=${amount}&sourceUnit=${initialUnit}&targetUnit=${targetUnit}`;
-    var API_KEY = 'd3a8582988694e8780200641aad4694b'
-
-    var API_KEY2 = 'eedc150ed7msh5507510bf70abc4p19b8a9jsn8b034ed95169'
+    var API_KEY = 'd3a8582988694e8780200641aad4694b' 
+    var urlConvertUnit = `https://api.spoonacular.com/recipes/convert?ingredientName=${ingredient}&sourceAmount=${amount}&sourceUnit=${initialUnit}&targetUnit=${targetUnit}&apiKey=${API_KEY}`;
 
     const settings = {
         "async": true,
         "crossDomain": true,
-        "url": `https://cors-anywhere.herokuapp.com/`+urlConvertUnit,
-        "method": "GET",
+        "url": `https://cors-anywhere.herokuapp.com/` + urlConvertUnit,
+        "method": "GET" ,
         "headers": {
             "x-rapidapi-key": API_KEY,
             "x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
@@ -253,21 +238,23 @@ function convertUnit(ingredient, amount, initialUnit, targetUnit) {
 function displayThumbnailViews (){
     // for (i=searchResultsSet*6; i<searchResultsSet*6+6; i++){
     for (i=0; i < currentRecipesArr.length ; i++){
-        $("#displayPane").append($("<div>")  
-            .attr("data-arrIndex", i)
-            .attr("class", "thumbnail uk-card uk-card-default uk-card-body uk-width-1-1@s uk-width-1-2@m uk-width-1-3@lg uk-height-small")
-            .attr("id", `card${i}`)
-            .append($("<div>")
-                .attr("class", "uk-card-media-top")
-                .append($("<img>")
-                    .attr("alt", "Recipe Image")
-                    .attr("class", "thumbnail")
-                    .attr("src", currentRecipesArr[i].recipeImgSrc))))
-            $(`#card${i}`).append($("<div>")
-                .attr("class", "uk-card-body uk-text-center")
-                .append($("<h5>")
-                    .attr("class", "uk-card-title")
-                    .text(currentRecipesArr[i].recipeName)))   
+        $("#displayPane").append($("<div>")
+        .attr("class", "thumbnail")
+        .attr("data-arrIndex", i)
+        .append ($("<div>")  
+                .attr("class", "uk-card uk-card-default uk-width-1-1@s uk-width-1-2@m uk-width-1-3@lg")
+                .attr("id", `card${i}`)
+                .append($("<div>")
+                    .attr("class", "uk-card-media-top")
+                    .append($("<img>")
+                        .attr("alt", "Recipe Image")
+                        .attr("class", "thumbnailImage uk-align-center")
+                        .attr("src", currentRecipesArr[i].recipeImgSrc)))))
+                $(`#card${i}`).append($("<div>")
+                    .attr("class", "uk-text-center uk-text-top")
+                    .append($("<h5>")
+                        .attr("class", "uk-text-center uk-text-top")
+                        .text(currentRecipesArr[i].recipeName)))   
     }
 }
         
@@ -285,7 +272,6 @@ function displayRecipe(){
     var image = currentRecipesArr[currentRecipeIndex].recipeImgSrc;
     var recipeUrl = currentRecipesArr[currentRecipeIndex].recipeURL;
     var ingredientsArr = currentRecipesArr[currentRecipeIndex].ingredients
-    
 
     recipeCard.append($('<div>', { id: 'recipeName', text: name, class: ' uk-text-uppercase uk-card-title' }));
     recipeCardBody.append($('<img>', { id: 'recipeImg', src: image}));
@@ -309,10 +295,13 @@ function displayRecipe(){
                             .attr("class", "grams")
                             .text(`${ingredientsArr[i][3]} grams`))))
     }
+    pushCurrentLocalStorage();
 }
 
 $(".thumbnail").on("click", function () {
     currentRecipeIndex = $(this).attr("data-arrIndex");
+    currentRecipe = currentRecipesArr[currentRecipeIndex];
+    console.log(currentRecipe);
     console.log($(this).attr("data-arrIndex"));
     displayRecipe ();
 })
@@ -324,14 +313,14 @@ function pushSavedLocalStorage(){
 function pullSavedLocalStorage(){
    return currentRecipesArr = JSON.parse(localStorage.getItem("savedRecipes"));
 }
-    
+
 function pushCurrentLocalStorage(){
     localStorage.setItem("currentRecipe", JSON.stringify(currentRecipe));
 }
 
 function pullCurrentLocalStorage (){
     return currentRecipe = JSON.parse(localStorage.getItem("currentRecipe"));
-
 }
-
+var tempLocal = pullCurrentLocalStorage();
+console.log(tempLocal);
 
