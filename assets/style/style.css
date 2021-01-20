@@ -10,21 +10,21 @@ body {
     align-items: center;
     height: 100%;
 }
-#secondContainer {
+/* #secondContainer {
     border: 2px solid red;
     /* width: 50%;
-    height: 100%; */
+    height: 100%; */ */
 }
 #searchPane{
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
     height: 50%;
 }
 #recentsPane {
-    border: 2px solid green;
+    /* border: 2px solid green; */
     height: 50%;
 }
 #displayPane {
-    border: 2px solid black;
+    /* border: 2px solid black; */
     /* width: 50%; */
     height: 100%;
 }
@@ -32,7 +32,7 @@ body {
     display: block;
 }
 #recentsList {
-    border: 2px solid green;
+    /* border: 2px solid green; */
 }
 .thumbnailImage {
     height: 100px;
@@ -52,4 +52,6 @@ body {
 .returnBtn {
     display: block;
 }
-
+.recentsBtn {
+    display: block;
+}
