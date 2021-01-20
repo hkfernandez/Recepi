@@ -201,9 +201,13 @@ function displayThumbnailViews (){
     }
 
     $(".thumbnail").on("click", function () {
-        currentRecipeIndex = $(this).attr("data-arrIndex");
+       
+        if (currentRecipeState === "saved" ) {
+            currentFavoriteIndex = $(this).attr("data-arrIndex");
+        } else {
+            currentRecipeIndex = $(this).attr("data-arrIndex");
+        }
         currentRecipe = currentRecipesArr[currentRecipeIndex];
-        console.log(currentRecipe);
         // console.log($(this).attr("data-arrIndex"));
         displayRecipe ();
     })
@@ -273,9 +277,9 @@ function displayRecipe(){
             .attr("id", "deleteBtn uk-button uk-button-default")
             .text("REMOVE FROM FAVORITES")
             .attr("class", "saveBtn"));
-        $("#saveBtn").on("click", function (){
-            // removeCurrentRecipeFromFavorties ();
-            $("#saveBtn").text("REMOVED")
+        $(".saveBtn").on("click", function (){
+            removeCurrentRecipeFromFavorties ();
+            $("#deleteBtn").text("REMOVED")
             .attr("class", "removed uk-button-default")
             .attr("disabled>Disabled")
         })
@@ -308,11 +312,13 @@ function saveCurrentRecipeToFavorites (){
 }
 
 function removeCurrentRecipeFromFavorties (){
-    favortiesArr.splice(currentFavoriteIndex, 1);
+    favoritesArr = pullFavoritesLocalStorage ();
+    alert (favoritesArr[currentFavoriteIndex]);
+    favoritesArr.splice(currentFavoriteIndex, 1);
     pushFavoritesLocalStorage ();
 }
 
-function buildFavortiesList () {
+function buildFavoritesList () {
     favoritesArr = pullFavoritesLocalStorage ();
     if (favoritesArr){
         for (let i = 0; i < 8; i++) {
@@ -323,9 +329,9 @@ function buildFavortiesList () {
                 .attr("data-recipeIndex", i));
         }
         $(".recentsBtn").on("click", function (){
-            alert($(this).attr("data-recipeIndex"));
             currentRecipe = favoritesArr[$(this).attr("data-recipeIndex")];
             currentRecipeState = "saved"
+            currentFavoriteIndex = $(this).attr("data-recipeIndex")
             displayRecipe();
         })
     }
@@ -333,14 +339,15 @@ function buildFavortiesList () {
         $("#recentsList").append($("<button>")
             .attr("id", "showAllFavoritesBtn")
             .attr("class", "recentsBtn uk-button uk-button-link")
-            .text("SHOW ALL MY RECIPES"))
+            .text("SHOW ALL MY RECIPES"));
         $("#showAllFavoritesBtn").on("click", function (){
+            currentRecipeState = "saved";
             showAllFavorites();
         })
     }
 
 }
-buildFavortiesList();
+buildFavoritesList();
 
 function showAllFavorites(){
     currentRecipesArr = pullFavoritesLocalStorage ();
@@ -358,6 +365,9 @@ function pullFavoritesLocalStorage(){
 
 function pushCurrentLocalStorage(){
     var currentRecipeInfo = [currentRecipe, currentRecipeState]
+    if (currentRecipeState = "saved") {
+        currentRecipeInfo.push(currentFavoriteIndex)
+    }
     localStorage.setItem("currentRecipe", JSON.stringify(currentRecipeInfo));
 }
 
@@ -369,12 +379,13 @@ function pullCurrentLocalStorage (){
 function displayCurrentRecipe (){
     currentRecipeInfo = pullCurrentLocalStorage();
     currentRecipe = currentRecipeInfo[0];
-    console.log(currentRecipeInfo[0]);
     currentRecipeState = currentRecipeInfo[1];
-    console.log(currentRecipeInfo[1]);
+    if (currentRecipeInfo[2]) {
+        currentFavoriteIndex = currentRecipeInfo[2]
+    }
     displayRecipe();
 }
-// displayCurrentRecipe();
+displayCurrentRecipe();
 
 
 // Omar APP ID "bb9ad742";
