@@ -25,7 +25,7 @@ $("#mainContainer").append($("<section>")
     .attr("uk-height-match", "")
     
 )
-$("#mainContainer").prepend($("<div>")
+$("#secondContainer").prepend($("<div>")
     .text(currentHour)
 )
 // displayPane
