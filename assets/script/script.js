@@ -21,7 +21,7 @@ var currentIngredientId;
 // second container 
 $("#mainContainer").append($("<section>")
     .attr("id", "secondContainer")
-    .attr("class", "uk-height-viewport")
+    .attr("class", "")
     .attr("uk-height-match", "")
     
 )
@@ -32,7 +32,7 @@ $("#secondContainer").prepend($("<div>")
 $("#mainContainer").append($("<section>")
     .attr("id", "displayPane")
     .attr("uk-grid", "")
-    .attr("class", "uk-grid-small")
+    .attr("class", "uk-overflow-auto uk-grid-small uk-grid-match")
 )
 // searchPane
 $("#secondContainer").append($("<nav>")
@@ -201,7 +201,7 @@ function displayThumbnailViews (){
                 $(`#card${i}`).append($("<div>")
                     .attr("class", "uk-text-center uk-text-top")
                     .append($("<h5>")
-                        .attr("class", "uk-text-center uk-text-top")
+                        .attr("class", "uk-text-center uk-text-middle")
                         .text(currentRecipesArr[i].recipeName)))   
     }
 
