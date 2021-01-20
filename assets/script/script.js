@@ -52,14 +52,14 @@ $("#searchPane").append($("<form>")
 // search button
 $("#searchPane").append($("<button>")
     .attr("id", "searchBtn")
-    .attr("class", "uk-button uk-button-default")
+    .attr("class", "uk-button uk-button-primary")
     .text("Search")
 )
 
 // toggle english/spanish button
 $("#searchPane").append($("<button>")
     .attr("id", "toggleLanguage")
-    .attr("class", "uk-button uk-button-link")
+    .attr("class", "uk-button uk-button-link uk-width-1-1")
     .text("Español")
 )
 
@@ -180,12 +180,13 @@ function convertUnit(ingredient, amount, initialUnit, targetUnit) {
 
 function displayThumbnailViews (){
     // for (i=searchResultsSet*6; i<searchResultsSet*6+6; i++){
+    $("#displayPane").empty();
     for (i=0; i < currentRecipesArr.length ; i++){
         $("#displayPane").append($("<div>")
-        .attr("class", "thumbnail")
+        .attr("class", "thumbnail uk-width-1-1@s uk-width-1-3@m")
         .attr("data-arrIndex", i)
         .append ($("<div>")  
-                .attr("class", "uk-card uk-card-default uk-width-1-1@s uk-width-1-2@m uk-width-1-3@lg")
+                .attr("class", "uk-card uk-card-default")
                 .attr("id", `card${i}`)
                 .append($("<div>")
                     .attr("class", "uk-card-media-top")
@@ -260,16 +261,18 @@ function displayRecipe(){
             .text("SAVE")
             .attr("class", "saveBtn uk-button uk-button-primary"));
         $("#saveBtn").on("click", function (){
+            currentRecipeState = "saved";
             saveCurrentRecipeToFavorites ();
+            pushCurrentLocalStorage ();
             $("#saveBtn").text("SAVED")
                 .attr("class", "saved uk-button-default")
-                .attr("disabled>Disabled")
+                .attr("disabled>Disabled");
             })
         $("#ingredientsContainer").append($("<button>")
             .attr("id", "returnBtn")
             .text("RETURN TO SEARCH RESULTS")
             .attr("class", "returnBtn uk-button uk-button-text"));
-        $("#retunBtn").on("click", function (){
+        $(".returnBtn").on("click", function (){
             displayThumbnailViews ();
         })
     } else {
@@ -287,7 +290,8 @@ function displayRecipe(){
             .attr("id", "returnBtn")
             .text("RETURN TO FAVORITES")
             .attr("class", "returnBtn uk-button uk-button-text"));
-        $("#retunBtn").on("click", function (){
+        $(".returnBtn").on("click", function (){
+            currentRecipesArr = pullFavoritesLocalStorage();
             displayThumbnailViews ();
         })
     }
@@ -303,12 +307,9 @@ function saveCurrentRecipeToFavorites (){
         favortiesArr = [currentRecipe];
         // console.log(favoritesArr);
     }
-    currentRecipeState = "saved"
-    // postFavorites();
-    console.log (currentRecipe);
-    console.log(favoritesArr);
     currentFavoriteIndex = 0
     pushFavoritesLocalStorage();
+    buildFavoritesList ();
 }
 
 function removeCurrentRecipeFromFavorties (){
@@ -316,15 +317,20 @@ function removeCurrentRecipeFromFavorties (){
     alert (favoritesArr[currentFavoriteIndex]);
     favoritesArr.splice(currentFavoriteIndex, 1);
     pushFavoritesLocalStorage ();
+    buildFavoritesList ();
+    localStorage.removeItem("currentRecipe");
+    currentRecipesArr = pullFavoritesLocalStorage ();
+    displayThumbnailViews();
 }
 
 function buildFavoritesList () {
+    $("#recentsList").empty();
     favoritesArr = pullFavoritesLocalStorage ();
     if (favoritesArr){
         for (let i = 0; i < 8; i++) {
             var recipeName = favoritesArr[i].recipeName;
             $("#recentsList").append($("<button>")
-                .attr("class", "recentsBtn uk-button uk-button-text")
+                .attr("class", "recentsBtn uk-button uk-button-text uk-width-1-1")
                 .text(recipeName)
                 .attr("data-recipeIndex", i));
         }
@@ -338,7 +344,7 @@ function buildFavoritesList () {
     if (favoritesArr.length > 7 ) {
         $("#recentsList").append($("<button>")
             .attr("id", "showAllFavoritesBtn")
-            .attr("class", "recentsBtn uk-button uk-button-link")
+            .attr("class", "recentsBtn uk-button uk-button-link uk-width-1-1")
             .text("SHOW ALL MY RECIPES"));
         $("#showAllFavoritesBtn").on("click", function (){
             currentRecipeState = "saved";
@@ -372,7 +378,6 @@ function pushCurrentLocalStorage(){
 }
 
 function pullCurrentLocalStorage (){
-    console.log(JSON.parse(localStorage.getItem("currentRecipe")));
     return JSON.parse(localStorage.getItem("currentRecipe"));
 }
 
@@ -386,6 +391,7 @@ function displayCurrentRecipe (){
     displayRecipe();
 }
 displayCurrentRecipe();
+console.log(currentRecipeState);
 
 
 // Omar APP ID "bb9ad742";
