@@ -1,5 +1,7 @@
 
 // START GLOBAL VARIABLES ---------------------------------------------------
+var favoritesArr;
+var currentFavoriteIndex;
 var currentRecipesArr = []
 var currentRecipe;
 var currentRecipeIndex = 0;
@@ -50,14 +52,14 @@ $("#searchPane").append($("<form>")
 // search button
 $("#searchPane").append($("<button>")
     .attr("id", "searchBtn")
-    .attr("class", "uk-button uk-button-default")
+    .attr("class", "uk-button uk-button-primary")
     .text("Search")
 )
 
 // toggle english/spanish button
 $("#searchPane").append($("<button>")
     .attr("id", "toggleLanguage")
-    .attr("class", "uk-button uk-button-link")
+    .attr("class", "uk-button uk-button-link uk-width-1-1")
     .text("Español")
 )
 
@@ -68,7 +70,7 @@ $("#recentsPane").append($("<H3>")
 // recents list
 $("#recentsPane").append($("<nav>")
     .attr("id", "recentsList")
-    .text("Recents List")
+    .attr("class", "uk-text-center")
 )
 
 // END WIREFRAME-------------------------------------------------------- 
@@ -114,17 +116,18 @@ function webSearch(searchValue) {
         method: "GET"
     }).then(function (response){
         console.log(response);
-        var returnedRecipesArr = response.hits
-        setArrayToCurrentRecipesArr(returnedRecipesArr)
-        currentRecipeState = "unsaved"
+        var returnedRecipesArr = response.hits;
+        setArrayToCurrentRecipesArr(returnedRecipesArr);
+        currentRecipeState = "unsaved";
         console.log(currentRecipesArr)
+        displayThumbnailViews ();
     })  
       
-        var sampleIngredient = response.hits[0].recipe.ingredients[0];
+        // var sampleIngredient = response.hits[0].recipe.ingredients[0];
 
-        console.log(sampleIngredient)
-        // test unit convert function
-        convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'Tablespoon');
+        // console.log(sampleIngredient)
+        // // test unit convert function
+        // convertUnit(sampleIngredient.food, sampleIngredient.quantity, sampleIngredient.measure, 'Tablespoon');
 } 
 
 function setArrayToCurrentRecipesArr(arr) {
@@ -177,12 +180,13 @@ function convertUnit(ingredient, amount, initialUnit, targetUnit) {
 
 function displayThumbnailViews (){
     // for (i=searchResultsSet*6; i<searchResultsSet*6+6; i++){
+    $("#displayPane").empty();
     for (i=0; i < currentRecipesArr.length ; i++){
         $("#displayPane").append($("<div>")
-        .attr("class", "thumbnail")
+        .attr("class", "thumbnail uk-width-1-1@s uk-width-1-3@m")
         .attr("data-arrIndex", i)
         .append ($("<div>")  
-                .attr("class", "uk-card uk-card-default uk-width-1-1@s uk-width-1-2@m uk-width-1-3@lg")
+                .attr("class", "uk-card uk-card-default")
                 .attr("id", `card${i}`)
                 .append($("<div>")
                     .attr("class", "uk-card-media-top")
@@ -196,6 +200,18 @@ function displayThumbnailViews (){
                         .attr("class", "uk-text-center uk-text-top")
                         .text(currentRecipesArr[i].recipeName)))   
     }
+
+    $(".thumbnail").on("click", function () {
+       
+        if (currentRecipeState === "saved" ) {
+            currentFavoriteIndex = $(this).attr("data-arrIndex");
+        } else {
+            currentRecipeIndex = $(this).attr("data-arrIndex");
+        }
+        currentRecipe = currentRecipesArr[currentRecipeIndex];
+        // console.log($(this).attr("data-arrIndex"));
+        displayRecipe ();
+    })
 }
         
 // displayThumbnailViews ();
@@ -208,70 +224,174 @@ function displayRecipe(){
     $('#displayPane').append(recipeCard);
     recipeCardBody = recipeCard.append($('<div>', {id:'card0body', class: 'uk-card-body',}));
 
-    var name = currentRecipesArr[currentRecipeIndex].recipeName;
-    var image = currentRecipesArr[currentRecipeIndex].recipeImgSrc;
-    var recipeUrl = currentRecipesArr[currentRecipeIndex].recipeURL;
-    var ingredientsArr = currentRecipesArr[currentRecipeIndex].ingredients
+    var name = currentRecipe.recipeName;
+    var image = currentRecipe.recipeImgSrc;
+    var recipeUrl = currentRecipe.recipeUrl;
+    var ingredientsArr = currentRecipe.recipeIngredients
 
     recipeCard.append($('<div>', { id: 'recipeName', text: name, class: ' uk-text-uppercase uk-card-title' }));
     recipeCardBody.append($('<img>', { id: 'recipeImg', src: image}));
     recipeCardBody.append($('<div>', { id: 'imgDiv'}));
-    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'Recipe URL', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
-    recipeCard.append($('<div>', { id: 'ingredientsContainer', class: '' }));
+    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'More Details', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
+    recipeCard.append($('<div>', { id: 'ingredientsContainer', class: 'ingredients' }));
     
-    for (i = 0; i < currentRecipesArr[currentRecipeIndex].ingredients.length; i++) {
+    for (i = 0; i < ingredientsArr.length; i++) {
         $("#ingredientsContainer").append($("<div>")
             .attr("data-index", i)
             .append($("<span>")
-                .attr("class", "ingredient")
-                .text(`${ingredientsArr[i][0]} `))
+                .attr("class", "ingText")
+                .text(ingredientsArr[i][0]))
                 .append($("<span>")
-                    .attr("class", "qty")
-                    .text(`${ingredientsArr[i][2]} `)
+                    .attr("class", "ingFood")
+                    .text(ingredientsArr[i][1])
                     .append($("<span>")
-                        .attr("class", "measure")
-                        .text(`${ingredientsArr[i][1]} - `))
+                        .attr("class", "ingQty")
+                        .text(ingredientsArr[i][2]))
                         .append($("<span>")
-                            .attr("class", "grams")
-                            .text(`${ingredientsArr[i][3]} grams`))))
+                            .attr("class", "ingMeasure")
+                            .text(ingredientsArr[i][3])
+                            .append($("<span>")
+                                .attr("class", "ingWeight")
+                                .text(ingredientsArr[i][4])))))
+    }
+
+    if (currentRecipeState === "unsaved") {
+        $("#ingredientsContainer").append($("<button>")
+            .attr("id", "saveBtn")
+            .text("SAVE")
+            .attr("class", "saveBtn uk-button uk-button-primary"));
+        $("#saveBtn").on("click", function (){
+            currentRecipeState = "saved";
+            saveCurrentRecipeToFavorites ();
+            pushCurrentLocalStorage ();
+            $("#saveBtn").text("SAVED")
+                .attr("class", "saved uk-button-default")
+                .attr("disabled>Disabled");
+            })
+        $("#ingredientsContainer").append($("<button>")
+            .attr("id", "returnBtn")
+            .text("RETURN TO SEARCH RESULTS")
+            .attr("class", "returnBtn uk-button uk-button-text"));
+        $(".returnBtn").on("click", function (){
+            displayThumbnailViews ();
+        })
+    } else {
+        $("#ingredientsContainer").append($("<button>")
+            .attr("id", "deleteBtn uk-button uk-button-default")
+            .text("REMOVE FROM FAVORITES")
+            .attr("class", "saveBtn"));
+        $(".saveBtn").on("click", function (){
+            removeCurrentRecipeFromFavorties ();
+            $("#deleteBtn").text("REMOVED")
+            .attr("class", "removed uk-button-default")
+            .attr("disabled>Disabled")
+        })
+        $("#ingredientsContainer").append($("<button>")
+            .attr("id", "returnBtn")
+            .text("RETURN TO FAVORITES")
+            .attr("class", "returnBtn uk-button uk-button-text"));
+        $(".returnBtn").on("click", function (){
+            currentRecipesArr = pullFavoritesLocalStorage();
+            displayThumbnailViews ();
+        })
     }
     pushCurrentLocalStorage();
 }
 
-$(".thumbnail").on("click", function () {
-    currentRecipeIndex = $(this).attr("data-arrIndex");
-    currentRecipe = currentRecipesArr[currentRecipeIndex];
-    console.log(currentRecipe);
-    console.log($(this).attr("data-arrIndex"));
-    displayRecipe ();
-})
-
-$(".thumbnail").on("click", function () {
-    currentRecipeIndex = $(this).attr("data-arrIndex");
-    currentRecipe = currentRecipesArr[currentRecipeIndex];
-    console.log(currentRecipe);
-    console.log($(this).attr("data-arrIndex"));
-    displayRecipe ();
-})
-
-function pushSavedLocalStorage(){
-    localStorage.setItem("savedRecipes", JSON.stringify(currentRecipesArr));
+function saveCurrentRecipeToFavorites (){
+    favoritesArr = pullFavoritesLocalStorage();
+    if (favoritesArr) {
+        favoritesArr.unshift(currentRecipe);
+    } else {
+        // console.log(favoritesArr);
+        favortiesArr = [currentRecipe];
+        // console.log(favoritesArr);
+    }
+    currentFavoriteIndex = 0
+    pushFavoritesLocalStorage();
+    buildFavoritesList ();
 }
 
-function pullSavedLocalStorage(){
-   return currentRecipesArr = JSON.parse(localStorage.getItem("savedRecipes"));
+function removeCurrentRecipeFromFavorties (){
+    favoritesArr = pullFavoritesLocalStorage ();
+    alert (favoritesArr[currentFavoriteIndex]);
+    favoritesArr.splice(currentFavoriteIndex, 1);
+    pushFavoritesLocalStorage ();
+    buildFavoritesList ();
+    localStorage.removeItem("currentRecipe");
+    currentRecipesArr = pullFavoritesLocalStorage ();
+    displayThumbnailViews();
+}
+
+function buildFavoritesList () {
+    $("#recentsList").empty();
+    favoritesArr = pullFavoritesLocalStorage ();
+    if (favoritesArr){
+        for (let i = 0; i < 8; i++) {
+            var recipeName = favoritesArr[i].recipeName;
+            $("#recentsList").append($("<button>")
+                .attr("class", "recentsBtn uk-button uk-button-text uk-width-1-1")
+                .text(recipeName)
+                .attr("data-recipeIndex", i));
+        }
+        $(".recentsBtn").on("click", function (){
+            currentRecipe = favoritesArr[$(this).attr("data-recipeIndex")];
+            currentRecipeState = "saved"
+            currentFavoriteIndex = $(this).attr("data-recipeIndex")
+            displayRecipe();
+        })
+    }
+    if (favoritesArr.length > 7 ) {
+        $("#recentsList").append($("<button>")
+            .attr("id", "showAllFavoritesBtn")
+            .attr("class", "recentsBtn uk-button uk-button-link uk-width-1-1")
+            .text("SHOW ALL MY RECIPES"));
+        $("#showAllFavoritesBtn").on("click", function (){
+            currentRecipeState = "saved";
+            showAllFavorites();
+        })
+    }
+
+}
+buildFavoritesList();
+
+function showAllFavorites(){
+    currentRecipesArr = pullFavoritesLocalStorage ();
+    displayThumbnailViews ();
+}
+
+function pushFavoritesLocalStorage(){
+    localStorage.setItem("favoriteRecipes", JSON.stringify(favoritesArr));
+}
+
+function pullFavoritesLocalStorage(){
+   var storedFavortiesArr = JSON.parse(localStorage.getItem("favoriteRecipes"));
+   return storedFavortiesArr;
 }
 
 function pushCurrentLocalStorage(){
-    localStorage.setItem("currentRecipe", JSON.stringify(currentRecipe));
+    var currentRecipeInfo = [currentRecipe, currentRecipeState]
+    if (currentRecipeState = "saved") {
+        currentRecipeInfo.push(currentFavoriteIndex)
+    }
+    localStorage.setItem("currentRecipe", JSON.stringify(currentRecipeInfo));
 }
 
 function pullCurrentLocalStorage (){
-    return currentRecipe = JSON.parse(localStorage.getItem("currentRecipe"));
+    return JSON.parse(localStorage.getItem("currentRecipe"));
 }
-var tempLocal = pullCurrentLocalStorage();
-console.log(tempLocal);
 
+function displayCurrentRecipe (){
+    currentRecipeInfo = pullCurrentLocalStorage();
+    currentRecipe = currentRecipeInfo[0];
+    currentRecipeState = currentRecipeInfo[1];
+    if (currentRecipeInfo[2]) {
+        currentFavoriteIndex = currentRecipeInfo[2]
+    }
+    displayRecipe();
+}
+displayCurrentRecipe();
+console.log(currentRecipeState);
 
 
 // Omar APP ID "bb9ad742";
