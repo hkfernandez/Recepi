@@ -264,6 +264,39 @@ console.log(currentRecipe);
             .attr("class", "saveBtn uk-button uk-button-primary"));
         $(".saveBtn").on("click", function (e){
             // e.stopPropagation();
+
+        // add CONVERT button
+        $("#ingredientsContainer").append($("<button>")
+        .attr("id", "convertBtn")
+        .text("CONVERT")
+        .attr("class", "saveBtn uk-button uk-button-primary"));
+
+        // add click function for convert
+        $("#convertBtn").on("click", function (){
+            var ingArray = $('.ingText')
+
+            for(var i = 0; i < ingArray.length; i++) {
+                var containsPounds = $(ingArray[i]).text().includes("pound");
+                var containsCups = $(ingArray[i]).text().includes("cup");
+
+                if(containsPounds) {
+                    // convert to cups
+                    var newText = $(ingArray[i]).text().replace("pound", "cup")
+                    $(ingArray[i]).text(newText)
+                }
+                else if (containsCups) {
+                    // convert pounds
+                    var newText = $(ingArray[i]).text().replace("cup", "pound")
+                    $(ingArray[i]).text(newText)
+
+                }
+                
+
+                
+            }
+        })
+
+        $("#saveBtn").on("click", function (){
             currentRecipeState = "saved";
             saveCurrentRecipeToFavorites ();
             pushCurrentLocalStorage ();
