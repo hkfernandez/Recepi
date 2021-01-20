@@ -1,5 +1,8 @@
 
 // START GLOBAL VARIABLES ---------------------------------------------------
+var favoritesArr;
+var tempArr;
+var currentFavoriteIndex;
 var currentRecipesArr = []
 var currentRecipe;
 var currentRecipeIndex = 0;
@@ -197,10 +200,11 @@ function displayThumbnailViews (){
                         .attr("class", "uk-text-center uk-text-top")
                         .text(currentRecipesArr[i].recipeName)))   
     }
+
     $(".thumbnail").on("click", function () {
         currentRecipeIndex = $(this).attr("data-arrIndex");
         currentRecipe = currentRecipesArr[currentRecipeIndex];
-        // console.log(currentRecipe);
+        console.log(currentRecipe);
         // console.log($(this).attr("data-arrIndex"));
         displayRecipe ();
     })
@@ -251,35 +255,35 @@ function displayRecipe(){
         $("#ingredientsContainer").append($("<button>")
             .attr("id", "saveBtn")
             .text("SAVE")
-            .attr("class", "saveBtn uk-button uk-button-primary uk-button-sm"));
+            .attr("class", "saveBtn uk-button uk-button-primary"));
         $("#saveBtn").on("click", function (){
-            // saveCurrentRecipeToSaved ();
+            saveCurrentRecipeToFavorites ();
             $("#saveBtn").text("SAVED")
-                .attr("class", "saved uk-button-default uk-button-sm")
+                .attr("class", "saved uk-button-default")
                 .attr("disabled>Disabled")
             })
         $("#ingredientsContainer").append($("<button>")
             .attr("id", "returnBtn")
             .text("RETURN TO SEARCH RESULTS")
-            .attr("class", "returnBtn uk-button uk-button-text uk-button-sm"));
+            .attr("class", "returnBtn uk-button uk-button-text"));
         $("#retunBtn").on("click", function (){
             displayThumbnailViews ();
         })
     } else {
         $("#ingredientsContainer").append($("<button>")
-            .attr("id", "deleteBtn uk-button uk-button-default uk-button-small")
+            .attr("id", "deleteBtn uk-button uk-button-default")
             .text("REMOVE FROM FAVORITES")
             .attr("class", "saveBtn"));
         $("#saveBtn").on("click", function (){
-            // removeCurrentRecipeFromSaved ();
+            // removeCurrentRecipeFromFavorties ();
             $("#saveBtn").text("REMOVED")
-            .attr("class", "removed uk-button-default uk-button-sm")
+            .attr("class", "removed uk-button-default")
             .attr("disabled>Disabled")
         })
         $("#ingredientsContainer").append($("<button>")
             .attr("id", "returnBtn")
             .text("RETURN TO FAVORITES")
-            .attr("class", "returnBtn uk-button uk-button-text uk-button-sm"));
+            .attr("class", "returnBtn uk-button uk-button-text"));
         $("#retunBtn").on("click", function (){
             displayThumbnailViews ();
         })
@@ -287,13 +291,52 @@ function displayRecipe(){
     pushCurrentLocalStorage();
 }
 
-
-function pushSavedLocalStorage(){
-    localStorage.setItem("savedRecipes", JSON.stringify(currentRecipesArr));
+function saveCurrentRecipeToFavorites (){
+    favoritesArr = pullFavoritesLocalStorage();
+    if (favoritesArr) {
+        favoritesArr.unshift(currentRecipe);
+    } else {
+        // console.log(favoritesArr);
+        favortiesArr = [currentRecipe];
+        // console.log(favoritesArr);
+    }
+    currentRecipeState = "saved"
+    // postFavorites();
+    console.log (currentRecipe);
+    console.log(favoritesArr);
+    currentFavoriteIndex = 0
+    pushFavoritesLocalStorage();
 }
 
-function pullSavedLocalStorage(){
-   return currentRecipesArr = JSON.parse(localStorage.getItem("savedRecipes"));
+function removeCurrentRecipeFromFavorties (){
+    favortiesArr.splice(currentFavoriteIndex, 1);
+    pushFavoritesLocalStorage ();
+}
+
+function buildFavortiesList () {
+    favoritesArr = pullFavoritesLocalStorage ();
+    for (let i = 0; i < 6; i++) {
+        var recipeName = favoritesArr[i].recipeName;
+        var recipeIndex = i;
+        $("#recentsPane").append($("<div>")
+            .attr("class", "recentsDiv")
+            .append($("<span>")
+                .text(recipeName)
+                .attr("class", "favoriteName")
+                .append($("<span>")
+                    .text(recipeIndex)
+                    .attr("class", "favoriteIndex"))))
+    }
+}
+buildFavortiesList();
+
+function pushFavoritesLocalStorage(){
+    localStorage.setItem("favoriteRecipes", JSON.stringify(favoritesArr));
+}
+
+function pullFavoritesLocalStorage(){
+   var storedFavortiesArr = JSON.parse(localStorage.getItem("favoriteRecipes"));
+   return storedFavortiesArr;
 }
 
 function pushCurrentLocalStorage(){

@@ -52,3 +52,6 @@ body {
 .returnBtn {
     display: block;
 }
+.favoriteIndex {
+    display: none;
+}
