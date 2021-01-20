@@ -1,5 +1,6 @@
 
 // START GLOBAL VARIABLES ---------------------------------------------------
+var currentHour = dayjs ().format('h:mm')
 var favoritesArr;
 var currentFavoriteIndex;
 var currentRecipesArr = []
@@ -22,6 +23,10 @@ $("#mainContainer").append($("<section>")
     .attr("id", "secondContainer")
     .attr("class", "uk-height-viewport")
     .attr("uk-height-match", "")
+    
+)
+$("#secondContainer").prepend($("<div>")
+    .text(currentHour)
 )
 // displayPane
 $("#mainContainer").append($("<section>")
