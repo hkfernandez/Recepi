@@ -325,11 +325,20 @@ function buildFavortiesList () {
     }
     if (favoritesArr.length > 7 ) {
         $("#recentsList").append($("<button>")
+            .attr("id", "showAllFavoritesBtn")
             .attr("class", "recentsBtn uk-button uk-button-link")
             .text("SHOW ALL MY RECIPES"))
+        $("#showAllFavoritesBtn").on("click", function (){
+            showAllFavorites();
+        })
     }
 }
 buildFavortiesList();
+
+function showAllFavorites(){
+    currentRecipesArr = pullFavoritesLocalStorage ();
+    displayThumbnailViews ();
+}
 
 function pushFavoritesLocalStorage(){
     localStorage.setItem("favoriteRecipes", JSON.stringify(favoritesArr));
