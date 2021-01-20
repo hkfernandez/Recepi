@@ -1,7 +1,6 @@
 
 // START GLOBAL VARIABLES ---------------------------------------------------
 var favoritesArr;
-var tempArr;
 var currentFavoriteIndex;
 var currentRecipesArr = []
 var currentRecipe;
@@ -315,17 +314,19 @@ function removeCurrentRecipeFromFavorties (){
 
 function buildFavortiesList () {
     favoritesArr = pullFavoritesLocalStorage ();
-    for (let i = 0; i < 6; i++) {
-        var recipeName = favoritesArr[i].recipeName;
-        var recipeIndex = i;
-        $("#recentsPane").append($("<div>")
-            .attr("class", "recentsDiv")
-            .append($("<span>")
+    if (favoritesArr){
+        for (let i = 0; i < 8; i++) {
+            var recipeName = favoritesArr[i].recipeName;
+            $("#recentsList").append($("<button>")
+                .attr("class", "recentsBtn uk-button uk-button-text")
                 .text(recipeName)
-                .attr("class", "favoriteName")
-                .append($("<span>")
-                    .text(recipeIndex)
-                    .attr("class", "favoriteIndex"))))
+                .attr("data-recipeIndex", i));
+        }
+    }
+    if (favoritesArr.length > 7 ) {
+        $("#recentsList").append($("<button>")
+            .attr("class", "recentsBtn uk-button uk-button-link")
+            .text("SHOW ALL MY RECIPES"))
     }
 }
 buildFavortiesList();
