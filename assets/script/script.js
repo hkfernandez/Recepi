@@ -316,7 +316,7 @@ console.log(currentRecipe);
             .text("RETURN TO SEARCH RESULTS")
             .attr("class", "returnBtn uk-button uk-button-text"));
         $(".returnBtn").on("click", function (){
-            // currentRecipeState = "unsaved"
+            currentRecipeState = "unsaved"
             displayThumbnailViews ();
         })
     } else {
