@@ -141,6 +141,7 @@
                     }
                     .returnBtn {
                         display: block;
+                        margin: auto;
                     }
                     .recentsBtn {
                         display: block;
