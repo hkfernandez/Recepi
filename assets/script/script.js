@@ -26,7 +26,7 @@ $("#mainContainer").append($("<section>")
     
 )
 $("#secondContainer").prepend($("<div>")
-    .text("Last Page Refresh: " + currentHour)
+    .text("Updated on " + currentHour)
 )
 // displayPane
 $("#mainContainer").append($("<section>")
@@ -70,12 +70,12 @@ $("#searchPane").append($("<button>")
 
 // recentsPane header
 $("#recentsPane").append($("<H3>")
-    .text("My Saved Recipes:")
+    .text("My Favorite Recipes")
 )
 // recents list
 $("#recentsPane").append($("<nav>")
     .attr("id", "recentsList")
-    .attr("class", "uk-text-center")
+    .attr("class", "uk-text-center uk-container-center")
 )
 
 // END WIREFRAME-------------------------------------------------------- 
@@ -190,7 +190,7 @@ function displayThumbnailViews (){
         .attr("class", "thumbnail uk-width-1-1@s uk-width-1-3@m")
         .attr("data-arrIndex", i)
         .append ($("<div>")  
-                .attr("class", "uk-card uk-card-default")
+                .attr("class", "uk-card uk-card-default uk-width-sm")
                 .attr("id", `card${i}`)
                 .append($("<div>")
                     .attr("class", "uk-card-media-top")
@@ -225,24 +225,25 @@ function displayRecipe(){
  
     $("#displayPane").empty();
 
-    let recipeCard = $('<div>').attr('class', 'uk-card uk-card-hover');
+    let recipeCard = $('<div>').attr('class', 'recipeDisplayCard recipeDisplay uk-card uk-card-hover');
     $('#displayPane').append(recipeCard);
-    recipeCardBody = recipeCard.append($('<div>', {id:'card0body', class: 'uk-card-body',}));
+    recipeCardBody = recipeCard.append($('<div>', {id:'card0body', class: 'recipeDisplay uk-card-body',}));
 
     var name = currentRecipe.recipeName;
     var image = currentRecipe.recipeImgSrc;
     var recipeUrl = currentRecipe.recipeUrl;
     var ingredientsArr = currentRecipe.recipeIngredients
 
-    recipeCard.append($('<div>', { id: 'recipeName', text: name, class: ' uk-text-uppercase uk-card-title' }));
-    recipeCardBody.append($('<img>', { id: 'recipeImg', src: image}));
+    recipeCard.append($('<div>', { id: 'recipeName', text: name, class: 'recipeDisplay uk-text-uppercase uk-card-title' }));
+    recipeCardBody.append($('<img>', { id: 'recipeImg', src: image, class: 'recipeImg'}));
     recipeCardBody.append($('<div>', { id: 'imgDiv'}));
-    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'Complete Recipe Link', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
-    recipeCard.append($('<div>', { id: 'ingredientsContainer', class: 'ingredients' }));
+    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'Complete Recipe Link', target: '_blank', class: 'recipeDisplay uk-link-muted', href: recipeUrl }));
+    recipeCard.append($('<div>', { id: 'ingredientsContainer', class: 'recipeDisplay ingredients' }));
     
     for (i = 0; i < ingredientsArr.length; i++) {
         $("#ingredientsContainer").append($("<div>")
             .attr("data-index", i)
+            .attr("class", "recipeDisplay")
             .append($("<span>")
                 .attr("class", "ingText")
                 .text(ingredientsArr[i][0]))
@@ -322,7 +323,7 @@ console.log(currentRecipe);
         $("#ingredientsContainer").append($("<button>")
             .attr("id", "deleteBtn uk-button uk-button-default")
             .text("REMOVE FROM FAVORITES")
-            .attr("class", "saveBtn"));
+            .attr("class", "saveBtn deleteBtn"));
         $(".saveBtn").on("click", function (e){
             e.stopPropagation();
             removeCurrentRecipeFromFavorties ();
@@ -381,7 +382,7 @@ function buildFavoritesList () {
         for (let i = 0; i < favoritesArr.length; i++) {
             var recipeTitle = favoritesArr[i].recipeName;
             $("#recentsList").append($("<button>")
-                .attr("class", "recentsBtn uk-button uk-button-text uk-width-1-1")
+                .attr("class", "recentsBtn uk-button uk-button-text uk-button-large uk-align-center")
                 .text(recipeTitle)
                 .attr("data-recipeIndex", i));
         }
