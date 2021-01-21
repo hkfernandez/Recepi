@@ -26,7 +26,7 @@ $("#mainContainer").append($("<section>")
     
 )
 $("#secondContainer").prepend($("<div>")
-    .text("Last Page Refresh: " + currentHour)
+    .text("Updated on " + currentHour)
 )
 // displayPane
 $("#mainContainer").append($("<section>")
