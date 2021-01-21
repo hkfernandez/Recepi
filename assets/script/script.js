@@ -1,6 +1,6 @@
 
 // START GLOBAL VARIABLES ---------------------------------------------------
-var currentHour = dayjs ().format('h:mm')
+var currentHour = dayjs ().format('M/DD/YYYY h:mm a')
 var favoritesArr;
 var currentFavoriteIndex;
 var currentRecipesArr = []
@@ -26,7 +26,7 @@ $("#mainContainer").append($("<section>")
     
 )
 $("#secondContainer").prepend($("<div>")
-    .text(currentHour)
+    .text("Last Page Refresh: " + currentHour)
 )
 // displayPane
 $("#mainContainer").append($("<section>")
@@ -51,7 +51,7 @@ $("#searchPane").append($("<form>")
         .attr("id", "searchBar")
         .attr("class", "uk-search-input")
         .attr("type", "search")
-        .attr("placeholder", "Search in English...")
+        .attr("placeholder", "Search Recipe in English...")
     )
 )
 // search button
@@ -70,7 +70,7 @@ $("#searchPane").append($("<button>")
 
 // recentsPane header
 $("#recentsPane").append($("<H3>")
-    .text("My Recipes")
+    .text("My Saved Recipes:")
 )
 // recents list
 $("#recentsPane").append($("<nav>")
@@ -92,7 +92,7 @@ $("#toggleLanguage").on("click", function() {
         $("#toggleLanguage").text("English");
     } else {
         toggleEnglishSpanish = "english";
-        $("#searchBar").attr("placeholder", "Search in English...");
+        $("#searchBar").attr("placeholder", "Search Recipe in English...");
         $("#toggleLanguage").text("Español");
     }
 });        
@@ -237,7 +237,7 @@ function displayRecipe(){
     recipeCard.append($('<div>', { id: 'recipeName', text: name, class: ' uk-text-uppercase uk-card-title' }));
     recipeCardBody.append($('<img>', { id: 'recipeImg', src: image}));
     recipeCardBody.append($('<div>', { id: 'imgDiv'}));
-    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'More Details', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
+    $("#imgDiv").append($('<a>', { id: 'recipeUrl', text: 'Complete Recipe Link', target: '_blank', class: 'uk-link-muted', href: recipeUrl }));
     recipeCard.append($('<div>', { id: 'ingredientsContainer', class: 'ingredients' }));
     
     for (i = 0; i < ingredientsArr.length; i++) {
