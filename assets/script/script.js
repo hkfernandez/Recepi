@@ -110,7 +110,7 @@ $("#searchBtn").on("click", function(event) {
 
 function webSearch(searchValue) {
 
-    if (toggleEnglishSpanish = "english") {
+    if (toggleEnglishSpanish === "english") {
         var searchUrl = `https://api.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
     }else{
         var searchUrl = `https://cors-anywhere.herokuapp.com/https://test-es.edamam.com/search?q=${searchValue}&amp;app_id=${APP_ID}&amp;app_key=${APP_KEY}`;
@@ -311,14 +311,14 @@ console.log(currentRecipe);
                 .attr("class", "saved uk-button-default")
                 .attr("disabled>Disabled");
             })
-        $("#ingredientsContainer").append($("<button>")
-            .attr("id", "returnBtn")
-            .text("RETURN TO SEARCH RESULTS")
-            .attr("class", "returnBtn uk-button uk-button-text"));
-        $(".returnBtn").on("click", function (){
-            currentRecipeState = "unsaved"
-            displayThumbnailViews ();
-        })
+        // $("#ingredientsContainer").append($("<button>")
+        //     .attr("id", "returnBtn")
+        //     .text("RETURN TO SEARCH RESULTS")
+        //     .attr("class", "returnBtn uk-button uk-button-text"));
+        // $(".returnBtn").on("click", function (){
+        //     currentRecipeState = "unsaved"
+        //     displayThumbnailViews ();
+        // })
     } else {
         $("#ingredientsContainer").append($("<button>")
             .attr("id", "deleteBtn uk-button uk-button-default")
