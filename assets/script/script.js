@@ -311,14 +311,14 @@ console.log(currentRecipe);
                 .attr("class", "saved uk-button-default")
                 .attr("disabled>Disabled");
             })
-        // $("#ingredientsContainer").append($("<button>")
-        //     .attr("id", "returnBtn")
-        //     .text("RETURN TO SEARCH RESULTS")
-        //     .attr("class", "returnBtn uk-button uk-button-text"));
-        // $(".returnBtn").on("click", function (){
-        //     currentRecipeState = "unsaved"
-        //     displayThumbnailViews ();
-        // })
+        $("#ingredientsContainer").append($("<button>")
+            .attr("id", "returnBtn")
+            .text("RETURN TO SEARCH RESULTS")
+            .attr("class", "returnBtn uk-button uk-button-text"));
+        $(".returnBtn").on("click", function (){
+            // currentRecipeState = "unsaved"
+            displayThumbnailViews ();
+        })
     } else {
         $("#ingredientsContainer").append($("<button>")
             .attr("id", "deleteBtn uk-button uk-button-default")
